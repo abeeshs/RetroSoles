@@ -1,0 +1,72 @@
+
+
+<div class="container mt-5 mb-5">
+  {{#with products}}
+  <div class="card">
+    <div class="row g-0 singleproduct">
+      <div class="col-md-6 border-end">
+        <div class="d-flex flex-column justify-content-center">
+          <div id="main_image" >
+            <img src="{{this.urls.[0]}}" id="main_product_image" />
+          </div>
+          <div class="thumbnail_images">
+            <ul id="thumbnail">
+              <li><img onclick="changeImage(this)" src="{{this.urls.[0]}}" width="70" /></li>
+              <li><img onclick="changeImage(this)" src="{{this.urls.[2]}}" width="70" /></li>
+              <li><img onclick="changeImage(this)" src="{{this.urls.[3]}}" width="70" /></li>
+              <li><img onclick="changeImage(this)" src="{{this.urls.[1]}}" width="70" /></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 right-side">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>{{this.product}}</h3>
+            <a href="/add-to-wishlist/{{this._id}}"><i class="far fa-heart"></i></a>  
+          </div>
+          <div class="mt-2 pr-3 content">
+            <p>{{this.description}}</p>
+          </div>
+          <h3>Rs.{{this.discountprice}}</h3> <del>
+            <h3 class="disc">Rs.{{this.originalprice}}</h3>
+          </del>
+          <div class="ratings d-flex flex-row align-items-center">
+            <div class="d-flex flex-row">
+              <i class="bx bxs-star"></i>
+              <i class="bx bxs-star"></i>
+              <i class="bx bxs-star"></i>
+              <i class="bx bxs-star"></i>
+              <i class="bx bx-star"></i>
+            </div>
+            <span>441 reviews</span>
+          </div>
+          <div class="mt-5">
+            <span class="fw-bold">Size</span>
+            <div class="colors">
+              <ul id="marker">
+                <li id="marker-1">{{this.size}}</li>
+                {{!-- <li id="marker-2"><i class="far fa-circle"></i></li>
+                <li id="marker-3"><i class="far fa-circle"></i></li>
+                <li id="marker-4"><i class="far fa-circle"></i></li>
+                <li ><i class="far fa-circle"></i></li> --}}
+              </ul>
+            </div>
+          </div>
+          <div class="buttons d-flex flex-row mt-5 gap-3">
+            <a href="/add-to-wishlist/{{this._id}}"><button class="btn btn-outline-dark">Add to Wishlist</button></a>
+            <a href="/add-to-cart/{{this._id}}"><button class="btn btn-dark">Add to Cart</button></a>
+          </div>
+          {{!-- <div class="search-option">
+            <i class="bx bx-search-alt-2 first-search"></i>
+            <div class="inputs"> <input type="text" name="" /> </div>
+            <i class="bx bx-share-alt share"></i>
+          </div> --}}
+        </div>
+      </div>
+    </div>
+  </div>
+{{/with}}
+</div>
+
+

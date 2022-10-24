@@ -1,0 +1,80 @@
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Brand Management</h6>
+    </div>
+    <a class="ms-5 mt-3" data-bs-toggle="collapse" href="#collapsebrand" role="button" aria-expanded="false"
+      aria-controls="collapseExample" style="background-color:#008e96; width:170px ; color:white">
+      Add New Brand
+    </a>
+
+    </p>
+    <div class="collapse" id="collapsebrand">
+      <div class="card card-body">
+        <h4 class="ms-5">Add New Brand</h4>
+        <div class="col-xl-6 col-lg-12 col-md-12">
+          <form action="/admin/add-brand" method="post" class="tm-edit-product-form">
+            <div class="form-group col-xl-12 col-lg-6 col-md-6 mb-3">
+              <label for="name">Brand</label>
+              <input id="name" name="brand" type="text" class="form-control validate" required />
+            </div>
+
+
+            <div class="form-group col-xl-12 col-lg-6 col-md-6 mb-3">
+              <label for="stock">Description</label>
+              <input id="stock" name="description" type="text" class="form-control validate" required />
+            </div>
+
+
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Brand</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive ">
+        <table class="table table-bordered" id="brandTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+
+              <th scope="col">Brand </th>
+              <th scope="col">Description</th>
+              <th scope="col">Created On</th>
+              <th scope="col">Settings</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each brand}}
+            <tr>
+
+              <td>{{this.brand}}</td>
+              <td>{{this.description}}</td>
+              <td>{{this.created}}</td>
+              <td>
+                <a href="/admin/edit-brand/{{this._id}}" <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="/admin/delete-brand/{{this._id}}" <i class="fa-solid fa-trash-can"></i></a>
+              </td>
+
+            </tr>
+            {{/each}}
+
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function () {
+    $('#brandTable').DataTable();
+  });
+</script>

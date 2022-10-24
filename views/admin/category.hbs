@@ -1,0 +1,76 @@
+<div id="content-wrapper" class="d-flex flex-column">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Category Management</h6>
+    </div>
+    <a class="ms-5 mt-3" data-bs-toggle="collapse" href="#collapsecategory" role="button" aria-expanded="false"
+      aria-controls="collapseExample" style="background-color:#008e96; width:170px ; color:white">
+      Add new Category
+    </a>
+
+    </p>
+    <div class="collapse" id="collapsecategory">
+      <div class="card card-body">
+        <h4 class="ms-5">Add New Category</h4>
+        <div class="col-xl-6 col-lg-12 col-md-12">
+          <form action="/admin/add-category" method="post" class="tm-edit-product-form">
+            <div class="form-group col-xl-12 col-lg-6 col-md-6 mb-3">
+              <label for="name">Category</label>
+              <input id="name" name="category" type="text" class="form-control validate" required />
+            </div>
+
+
+            <div class="form-group col-xl-12 col-lg-6 col-md-6 mb-3">
+              <label for="stock">Description</label>
+              <input id="stock" name="description" type="text" class="form-control validate" required />
+            </div>
+
+
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Category</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive ">
+        <table class="table table-bordered" id="categorytable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+
+              <th scope="col">Category Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Created</th>
+              <th scope="col">Settings</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each category}}
+            <tr>
+
+              <td>{{this.category}}</td>
+              <td>{{this.description}}</td>
+              <td>{{this.created}}</td>
+              <td>
+                <a href="/admin/edit-category/{{this._id}}" <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="/admin/delete-category/{{this._id}}" <i class="fa-solid fa-trash-can"></i></a>
+              </td>
+
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('#categorytable').DataTable();
+  });
+</script>

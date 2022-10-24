@@ -1,0 +1,148 @@
+<section class="containers forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>Login</header>
+            {{#if message}}
+            <div class="alert alert-danger" role="alert">
+                {{message}} !
+            </div>
+            {{/if}}
+            <form action="/login" method="post">
+                <div class="field input-field">
+                    <input type="email" placeholder="Email" name="email" class="input">
+                </div>
+
+                <div class="field input-field">
+                    <input type="password" placeholder="Password" name="password" class="password">
+                    <i class='bx bx-hide eye-icon'></i>
+                </div>
+
+                <div class="form-link">
+                    <a href="#" class="forgot-pass" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        data-bs-whatever="@fat">Forgot password?</a>
+                </div>
+
+                <div class="field button-field">
+                    <button action="submit">Login</button>
+                </div>
+            </form>
+
+            <div class="form-link">
+                <span>Don't have an account? <a href="/signup" class="link signup-link">Signup</a></span>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="media-options">
+            <a href="/login-otp" class="field facebook">
+
+                <span>Login with OTP</span>
+            </a>
+        </div>
+
+        <div class="media-options">
+            <a href="#" class="field google">
+                <img src="images/google.png" alt="" class="google-img">
+                <span>Login with Google</span>
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+{{!-- ------------------Sent otp modal---------------- --}}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Recover Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span id="success" style="color: green;"></span>
+                <form id="mobileno" action="" method="post">
+                    <div class="mb-3">
+
+                        <label for="recipient-name" class="col-form-label">Mobile</label>
+                        <input type="text" class="form-control" id="recipientname" placeholder="Enter your mobile"
+                            name="mobile">
+                        <span id="mob" style="color: red;"></span>
+                    </div>
+                    <button id="sendotp" type="submit " class=" btn btn-primary">Sent Otp</button>
+                </form>
+                <form id="otpsub" action="" method="post">
+                    <span id="otpm"></span>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">OTP</label>
+                        <input type="text" class="form-control" id="recipien-name" placeholder="Enter your OTP"
+                            name="otpnum">
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="submit"  class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    {{!-- send otp --}}
+
+    $('#mobileno').submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: "/forgot/otp",
+            method: 'post',
+            data: $('#mobileno').serialize(),
+            success: (response) => {
+                if (response.err) {
+                    document.getElementById('mob').innerHTML = response.err;
+                } else {
+                    document.getElementById('sendotp').disabled = true;
+                    document.getElementById('mob').innerHTML = '';
+                    document.getElementById('success').innerHTML = "Otp send succesfully";
+                }
+
+
+            }
+        })
+    })
+
+
+   
+
+
+
+    $('#otpsub').submit((s) => {
+        let mobile = document.getElementById('recipientname').value;
+        console.log(mobile)
+        let otpnumber = document.getElementById('recipien-name').value;
+
+        s.preventDefault()
+        $.ajax({
+            url: "/forget/confirm-otp",
+            method: 'post',
+            data: {
+                mobile,
+                otpnumber
+            },
+            success: (response) => {
+                if (response.err) {
+                    document.getElementById('otpm').innerHTML = response.err;
+                }else{
+                    console.log(response)
+                    let mobile = document.getElementById('recipientname').value;
+                    location.href = '/create-new-password/'+mobile
+                }
+
+
+            }
+        })
+    })
+
+</script>

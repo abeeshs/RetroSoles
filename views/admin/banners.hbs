@@ -1,0 +1,76 @@
+<div class="container">
+  <p>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false"
+      aria-controls="collapseExample">
+      Add New Banner
+    </a>
+
+  </p>
+  <div class="collapse" id="collapseExample2">
+    <div class="card card-body">
+      <h3>Add New Banner</h1>
+        <form class="row g-3" action="/admin/add-banner" method="post" enctype="multipart/form-data">
+         
+          <div class="col-12">
+            <label for="inputAddress" class="form-label">Choose File</label>
+            <input class="form-control" id="fileInput" type="file" name="image" />
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+    </div>
+  </div>
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Created On</th>
+        <th scope="col">Image</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each banners}}
+      <tr>
+
+        <td>{{this.created_on}}</td>
+        <td><img src="{{this.image}}" alt="" style="width=50px;height:50px"> </td>
+        <td>
+          <button type="button" class="btn btn-primary " data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop{{@index}}"><i class="fa-solid fa-trash-can"></i>
+            Delete
+          </button>
+
+          {{!-- <button class="banner"><i class="fa-solid fa-trash-can"></i></button> --}}
+        </td>
+        <div class="modal fade " id="staticBackdrop{{@index}}" data-bs-backdrop="static" data-bs-keyboard="false"
+          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete Banner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Do you want to delete Banner?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"><a href="/admin/delete-banner/{{this._id}}">
+                    Delete</a></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </tr>
+      {{/each}}
+
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,29 @@
+<section class="containers forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>OTP Login</header>
+            {{#if message}}
+            <div class="alert alert-danger" role="alert">
+                {{message}} !
+            </div>
+            {{/if}}
+            <form action="/login-otp" method="post" id="otpmob">
+                <div class="field input-field">
+                    <p>Enter Your registered mobile</p>
+                    <input type="tel" placeholder="" name="mobile" class="input" maxlength="10" required="true">
+                </div>
+
+                <div class="field button-field">
+
+                </div>
+                <div class="field button-field ">
+                    <button action="submit">Submit</button>
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+
+</section>

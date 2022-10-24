@@ -1,0 +1,113 @@
+<section class="containers forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>Signup</header>
+            {{#if message}}
+            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
+            {{/if}}
+            <form id="usersign" action="/signup" method="post">
+                <div class="field input-field">
+
+                    <input type="name" placeholder="Your Name" name="name" class="input">
+                </div>
+                <div class="field input-field">
+
+                    <input type="email" placeholder="Email" name="email" class="input">
+                </div>
+                <div class="field input-field">
+
+                    <input type="mobile" placeholder="Mobile" name="mobile" class="input">
+                </div>
+
+
+                <div class="field input-field">
+
+                    <input type="password" placeholder="Password" name="password" class="password">
+                    <i class='bx bx-hide eye-icon'></i>
+                </div>
+                <div class="field input-field">
+
+                    <input type="Password" placeholder="Confirm Password" name="confirmPassword" class="password">
+                    <i class='bx bx-hide eye-icon'></i>
+                </div>
+                <div class="field input-field">
+                    <input type="text" placeholder="Referral Code" name="referalcode" class="input">
+                    
+                </div>
+
+                <div class="field button-field" type="submit">
+                    <button type="submit">Signup</button>
+                </div>
+            </form>
+
+            <div class="form-link">
+                <span>Already have an account? <a href="/login" class="link login-link">Login</a></span>
+            </div>
+        </div>
+
+        {{!-- <div class="line"></div> --}}
+        {{!-- <div class="media-options">
+            <a href="#" class="field google">
+                <img src="images/google.png" alt="" class="google-img">
+                <span>Login with Google</span>
+            </a>
+        </div> --}}
+
+    </div>
+
+    </div>
+
+</section>
+
+
+{{!-- <div class="form signup">
+    <div class="form-content">
+        <header>Signup</header>
+        <form action="/signup" method="post">
+            <div class="field input-field">
+
+                <input type="name" placeholder="Your Name" name="name" class="input">
+            </div>
+            <div class="field input-field">
+
+                <input type="email" placeholder="Email" name="email" class="input">
+            </div>
+            <div class="field input-field">
+
+                <input type="mobile" placeholder="Mobile" name="mobile" class="input">
+            </div>
+
+
+            <div class="field input-field">
+                <input type="password" placeholder="Password" name="password" class="password">
+                <i class='bx bx-hide eye-icon'></i>
+            </div>
+
+            <div class="field button-field" type="submit">
+                <button type="submit">Signup</button>
+            </div>
+        </form>
+
+        <div class="form-link">
+            <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
+        </div>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="media-options">
+        <a href="#" class="field facebook">
+            <i class='bx bxl-facebook facebook-icon'></i>
+            <span>Login with Facebook</span>
+        </a>
+    </div>
+
+    <div class="media-options">
+        <a href="#" class="field google">
+            <img src="images/google.png" alt="" class="google-img">
+            <span>Login with Google</span>
+        </a>
+    </div>
+
+</div>
+--}}

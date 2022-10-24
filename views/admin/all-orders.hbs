@@ -1,0 +1,116 @@
+<div id="content-wrapper" class="d-flex flex-column">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Order Management</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="ordertable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Sl no</th>
+                             <th>Product Name</th>
+                            <th>Customer</th>
+                           
+                            <th>Ordered On</th>
+                            <th>Total Amount</th>
+                            <th>Shipping Address</th>
+
+                            <th>Order Status</th>
+
+                            <th>Edit Order</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each order}}
+
+
+                        <tr>
+                            <td>{{inc @index}}</td>
+                             <td>
+                                <div class="d-flex align-items-center">
+
+                                    <div class="ms-3">
+                                        {{#each products}}
+                                        <p class="fw-bold mb-1">- {{this.productName}} x {{this.quantity}}</p>
+
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td>{{this.address.firstname}}</td>
+                            
+                           
+                            <td>
+                                <p class="fw-normal mb-1">{{this.ordered_on}}</p>
+
+                            </td>
+                            <td>
+                                <p class="fw-normal mb-1">Rs.{{this.grandTotal}}</p>
+
+                            </td>
+                            <td>
+                                <p class="fw-normal mb-1">{{this.address.firstname}},{{this.address.lastname}},{{this.address.address}},<br> {{this.address.city}},{{this.address.state}}-{{this.address.zipcode}}</p>
+
+                            </td>
+                            {{#eq this.orderstatus 'Pending'}}
+                            <td>
+
+                                <span class="badge badge-danger rounded-pill d-inline">{{this.orderstatus}}</span>
+                            </td>
+                            
+                            {{/eq}}
+                            {{#eq this.orderstatus 'Cancelled'}}
+                            <td>
+
+                                <span class="badge badge-danger rounded-pill d-inline">{{this.orderstatus}}</span>
+                            </td>
+                            {{else}}
+                            <td>
+
+                                <span class="badge badge-success rounded-pill d-inline">{{this.orderstatus}}</span>
+                            </td>
+                            {{/eq}}
+                           {{#eq this.orderstatus 'Cancelled'}}
+                            <td>{{this.orderstatus}}</td>
+                            {{else}}
+                            <td>
+                                <form action="/admin/order-status-change" method="post">
+                                    <input type="text" name="trackingId" value="{{this.tracking_id}}" hidden>
+                                    <select name="status" class="form-select status" aria-label="Default select example"
+                                        style="height:75%;">
+
+                                        <option class="form-options" selected>{{this.orderstatus}}</option>
+                                        <option class="form-options" value="Shipped">Shipped</option>
+                                        <option class="form-options" value="Out of Delivery">Out of Delivery</option>
+                                        <option class="form-options" value="Delivered">Delivered</option>
+                                        <option class="form-options" value="Cancel">Cancel</option>
+                                        <option class="form-options" value="Confirmed">Confirmed</option>
+                                        
+                                    </select>
+                                    <button type="submit">save</button>
+                                </form>
+
+                            </td>
+                            {{/eq}}
+
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#ordertable').DataTable();
+    });
+
+</script>

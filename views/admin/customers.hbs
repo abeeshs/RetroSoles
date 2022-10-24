@@ -1,0 +1,71 @@
+{{!-- table --}}
+<!-- DataTales Example -->
+<div id="content-wrapper" class="d-flex flex-column css-serial">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">User Management</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive ">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Customer Name</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Status</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each user}}
+            <tr>
+              <td></td>
+              <td>{{this.name}}</td>
+              <td>{{this.mobile}}</td>
+              <td>{{this.email}}</td>
+              <td>not available</td>
+              {{#eq this.status "Active"}}
+              <td><i class="fa-solid fa-circle " style="color: green; height:5px;"></i>{{this.status}}</td>
+              {{else}}
+              <td><i class="fa-solid fa-circle " style="color: rgb(128, 0, 0); height:5px;"></i>{{this.status}}</td>
+              {{/eq}}
+              {{#eq this.status "Active"}}
+              <td>
+                <a href="/admin/block-user/{{this._id}}">Block</a>
+
+              </td>
+              {{else}}
+              <td><i class="fa-solid fa-user-unlock"></i><a href="/admin/unblock-user/{{this._id}}">Unblock</a></td>
+              {{/eq}}
+
+              {{/each}}
+
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+
+
+<script>
+  $(document).ready(function () {
+    $('#dataTable').DataTable();
+  });
+</script>

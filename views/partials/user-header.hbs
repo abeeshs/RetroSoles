@@ -1,0 +1,143 @@
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+  <div class="offcanvas__option">
+    <div class="offcanvas__links">
+        {{#if user}}
+        {{else}}
+      <a href="#">Sign in</a>
+      {{/if}}
+      <a href="#">FAQs</a>
+    </div>
+
+  </div>
+  <div class="offcanvas__nav__option">
+    <a href="#" class="search-switch">
+      <a href="#"><img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAMAAAAs2N9uAAAABGdBTUEAALGPC/xhBQAAAQtQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4co3XAAAAFh0Uk5TABB4w9ejKBWR1ciKHSvk7JN2zPhgPurgfYfd9EYJxBEDfvykDAWg8x5kF12GAdahqNC1j2Hil7fGRTgZ63Wr5grK0wgLydwcviAP0SYt3yTFzg3Z2x8GlW7p2RQAAACzSURBVBjTVc7VEoJgEAXgY/4mdmIndjd2YSC2vv+TCGPB3uzON2d2F4BKrdHq9AAxGE1mC8SyUja7w+lye7w+fyBIh4BwMBIFYvFnIpkC0pksgxydl7IoFEtSS5cNqFShKHUN9YaSmi20O0oyd9FL9OUyYIfAaMz8ZTKdzYHFcrX+CUdtpL7dfW3Csfv3RGZvE4X/5snuIIjpo5f/b90uxzw5UYL89pljL9eb8sP7Y0Q+4wviFBaGoW6hzAAAAABJRU5ErkJggg=="
+          alt="" data-pagespeed-url-hash="935450538"></a>
+      <a href="#"><img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAMAAABl5a5YAAAABGdBTUEAALGPC/xhBQAAAKhQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALN9IhgAAADd0Uk5TAANanaRrCwzD/LOn894hju4xGte9V2DsuZxoXBmi8uDi6NDAkBBA8AKRGASSFLvBcKbqScjMae646zAAAABtSURBVBjTY2AAAUYmZhZWNgY4YOfg5OLm4eWDC/ALCDIwCAmLQGRFxcTEJcSAQNJcSkxahkFWTl7BXFEeCECUuBKDsgqDqrkaSC2IElMHCWhoaoEEtHV0oQJIYBAJ6OkbIAFDIwZjEyUkYGoGAA8AEZBIoP/iAAAAAElFTkSuQmCC"
+          alt="" data-pagespeed-url-hash="952819918">
+        <span>0</span></a>
+      
+  </div>
+  <div id="mobile-menu-wrap"></div>
+  <div class="offcanvas__text">
+    <p>Free shipping, 7-day return or refund guarantee.</p>
+  </div>
+</div>
+
+
+<header class="header" onload="wishlist();">
+  {{!-- <div class="header__top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-7">
+          <div class="header__top__left">
+            <p>Free shipping, 30-day return or refund guarantee.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-5">
+          <div class="header__top__right">
+            <div class="header__top__links">
+              <a href="#">Sign in</a>
+              <a href="#">FAQs</a>
+            </div>
+            <div class="header__top__hover">
+              <span>Usd <i class="arrow_carrot-down"></i></span>
+              <ul>
+                <li>USD</li>
+                <li>EUR</li>
+                <li>USD</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> --}}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <div class="header__logo">
+          <a href="/home"><img class="img-fluid" src="/img/Untitled.jpg" alt="" data-pagespeed-url-hash="1536963489"
+              style="width=70px; height:40px"></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <nav class="header__menu mobile-menu">
+          <ul>
+            <li class="{{Home}}"><a href="/home">Home</a></li>
+            <li class="{{Shop}}"><a href="/products">Shop</a></li>
+            <li class="{{Men}}"><a href="/products?catId=Men">Men</a></li>
+            <li class="{{Women}}"><a href="/products?catId=Women">Women</a></li>
+            <li class="{{Contacts}}"><a href="/contact-us">Contacts</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="header__nav__option  d-flex flex-row align-items-center">
+          <a href="#" class="search-switch"><img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAMAAADjcdz2AAAABGdBTUEAALGPC/xhBQAAAORQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsLyIwAAAEt0Uk5TABB1xu7MfxY/5fiteJ/x71A79sIgEaT9TAjexweh7V7+Kw/sqMSXzpRn5pJm6Kq+kMP7IwndugORPbETjk9D8GOK4/oByPKCFU551a0uSgAAAJ5JREFUGNNdy9UWggAURNGDHSi2mJhgYWJ3i/7///gAyFrO2+y5F0DweH0+fyCInVA4EhU9sbiUsHoylc4AZHN5GaBQLJXt00pVAJRa3fltNEWg1eYXtQ1oHRe6PUDruzDQgeHIhfEEUKYzpxu6CBjzxdKGlSQArFObLYCx++yt4aAf1ZNyvhyv6s0SQbxLD+35Mn/ixLzu+JfAn8jvLyoND535naQeAAAAAElFTkSuQmCC"
+              alt="" data-pagespeed-url-hash="3756334862"></a>
+          <a href="/wishlist"><img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAMAAAAs2N9uAAAABGdBTUEAALGPC/xhBQAAAQtQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4co3XAAAAFh0Uk5TABB4w9ejKBWR1ciKHSvk7JN2zPhgPurgfYfd9EYJxBEDfvykDAWg8x5kF12GAdahqNC1j2Hil7fGRTgZ63Wr5grK0wgLydwcviAP0SYt3yTFzg3Z2x8GlW7p2RQAAACzSURBVBjTVc7VEoJgEAXgY/4mdmIndjd2YSC2vv+TCGPB3uzON2d2F4BKrdHq9AAxGE1mC8SyUja7w+lye7w+fyBIh4BwMBIFYvFnIpkC0pksgxydl7IoFEtSS5cNqFShKHUN9YaSmi20O0oyd9FL9OUyYIfAaMz8ZTKdzYHFcrX+CUdtpL7dfW3Csfv3RGZvE4X/5snuIIjpo5f/b90uxzw5UYL89pljL9eb8sP7Y0Q+4wviFBaGoW6hzAAAAABJRU5ErkJggg=="
+              alt="" data-pagespeed-url-hash="935450538"><span id="wish" class="badge bg-dark text-white position-absolute" style="top:-5;left:15;">{{count}}</span></a>
+          {{#if count}}
+          <a href="/cart"><img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAMAAABl5a5YAAAABGdBTUEAALGPC/xhBQAAAKhQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALN9IhgAAADd0Uk5TAANanaRrCwzD/LOn894hju4xGte9V2DsuZxoXBmi8uDi6NDAkBBA8AKRGASSFLvBcKbqScjMae646zAAAABtSURBVBjTY2AAAUYmZhZWNgY4YOfg5OLm4eWDC/ALCDIwCAmLQGRFxcTEJcSAQNJcSkxahkFWTl7BXFEeCECUuBKDsgqDqrkaSC2IElMHCWhoaoEEtHV0oQJIYBAJ6OkbIAFDIwZjEyUkYGoGAA8AEZBIoP/iAAAAAElFTkSuQmCC"
+              alt="" data-pagespeed-url-hash="952819918"> <span class="badge bg-dark text-white position-absolute" style="top:-3;left:10;">{{count}}</span></a>
+          {{else}}
+          <a href="/cart"><img
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAMAAABl5a5YAAAABGdBTUEAALGPC/xhBQAAAKhQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALN9IhgAAADd0Uk5TAANanaRrCwzD/LOn894hju4xGte9V2DsuZxoXBmi8uDi6NDAkBBA8AKRGASSFLvBcKbqScjMae646zAAAABtSURBVBjTY2AAAUYmZhZWNgY4YOfg5OLm4eWDC/ALCDIwCAmLQGRFxcTEJcSAQNJcSkxahkFWTl7BXFEeCECUuBKDsgqDqrkaSC2IElMHCWhoaoEEtHV0oQJIYBAJ6OkbIAFDIwZjEyUkYGoGAA8AEZBIoP/iAAAAAElFTkSuQmCC"
+              alt="" data-pagespeed-url-hash="952819918"> <span class="badge bg-primary"></span></a>
+          {{/if}}
+
+          {{#if user}}
+          {{!-- <div class="container"> --}}
+            <div class="dropdown">
+              <div class="profile"> <img class="dropbtn"
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png">
+                <div class="dropdown-content">
+                  <ul>
+                    {{!-- <li><span>Hi Abeesh</span></li> --}}
+                    <li><i class="fa-solid fa-user"></i><a class="userp" href="/user-profile">My Profiles </a> </li>
+                    <li><i class="fa-solid fa-list"></i><a class="userp" href="/orders-list">Orders</a> </li>
+                    <li><i class="fa-solid fa-heart"></i><a class="userp" href="/wishlist">Wishlist</a> </li>
+                    <li><i class="fa-solid fa-wallet"></i><a class="userp" href="/Wallet">Wallet</a></li>
+                    <li><i class="fa-solid fa-arrow-right-from-bracket"></i><a class="userp" href="/logout">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {{else}}
+            <button class="button-81 btn btn-dark" role="button"><a style="color: white;" href="/login">
+                Login</a></button>
+            {{/if}}
+
+
+          </div>
+        </div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+</header>
+
+<script>
+  $(document).ready(function(){
+    $.ajax({url:"wishlistCount",
+    context:document.body,
+    success:(response)=>{
+      if(response.wishlist){
+        document.getElementById('wish').innerText=response.wishlist
+      }
+      
+    }
+    })
+  })
+</script>

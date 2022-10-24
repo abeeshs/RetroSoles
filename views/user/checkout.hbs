@@ -1,0 +1,346 @@
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Check Out</h4>
+          <div class="breadcrumb__links">
+            <a href="./index.html">Home</a>
+            <a href="./shop.html">Shop</a>
+            <span>Check Out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="checkout spad">
+  <div class="container">
+    <div class="cart__discount col-xl-4 col-md-4 me-auto">
+      <h6>Discount codes</h6>
+      <form action="" id="coupon" method="post">
+        <input type="text" placeholder="Coupon code" name="couponcode">
+        <input type="text" name="total" hidden value="{{totalAmount.total}}">
+        <button type="submit">Apply</button>
+
+      </form>
+      <span id="success" style="color: green;"></span><span ><a id="close" href="/checkout-product"></a></span>
+      <span id="couponerror" style="color:red;"></span>
+    </div>
+    <div class="checkout__form">
+      <div class="row">
+        <div class="col-lg-8 col-md-6">
+         
+          <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
+              here</a> to enter your code</h6>
+          <h6 class="checkout__title">Billing Details</h6>
+          <button class="btn btn-dark newAddress" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Add New Address
+          </button>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <form id="checkoutform" action="/add-delivery-addresss" method="post">
+                <div class="row">
+                  <span id="efirstname" class="mb-5"></span>
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+
+                      <p>Fist Name<span>*</span></p>
+                      <input id="firstname" type="text" name="firstname">
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <span id="elaststname"></span>
+                      <p>Last Name<span>*</span></p>
+                      <input id="lastname" type="text" name="lastname">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="checkout__input">
+                  <p>Address<span>*</span></p>
+                  <input id="address" type="text" placeholder="Street Address" class="checkout__input__add"
+                    name="address">
+
+                </div>
+                <div class="checkout__input">
+                  <p>Town/City<span>*</span></p>
+                  <input id="city" type="text" name="city">
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <p>State<span>*</span></p>
+                      <input id="state" type="text" name="state">
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <span id="ezip"></span>
+                      <p>Zip<span>*</span></p>
+                      <input id="zip" type="text" name="zipcode">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <span id="eemail"></span>
+                      <p>Email<span>*</span></p>
+                      <input id="email" type="text" name="email">
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <span id="eemobile"></span>
+                      <p>Mobile<span>*</span></p>
+                      <input id="mobile" type="text" name="mobile">
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn-dark">Save</button></a>
+              </form>
+            </div>
+
+          </div>
+          <form id="form" action="" method="">
+
+            <h6 class="checkout__title">Select your Address</h6>
+
+            {{#each userAddress}}
+            <input class="form-check-input btn btn-outline-dark btn btn-dark" checked type="radio" id="html"
+              name="selected" value="{{this.address_id}}">
+            <label
+              for="html">{{this.firstname}}{{this.lastname}}-{{this.address}},{{this.city}},{{this.state}}-{{this.zipcode}}</label><br>
+            {{/each}}
+
+
+
+
+        </div>
+
+
+        <div class="col-lg-4 col-md-6">
+          <div class="checkout__order">
+            <h4 class="order__title">Your order</h4>
+            <div class="checkout__order__products">Product <span>Total</span></div>
+            <ul class="checkout__total__products">
+              {{#each cartItems}}
+              <li>{{this.result.product}} x {{this.quantity}} <span>Rs.{{this.result.discountprice}}</span></li>
+              <input type="text" value="{{this.result._id}}" name="productId" hidden>
+              {{/each}}
+            </ul>
+            {{#with totalAmount}}
+            <ul class="checkout__total__all">
+              <li>Total <span id="">{{this.total}}</span><span>₹</span></li>
+              <li>Coupon Discount <span id="discount" style="color:green;">0</span><span style="color:green;">-₹</span>
+              </li>
+              <li>To Pay <span id="topay">{{this.total}}</span><span>₹</span></li>
+            </ul>
+            {{/with}}
+
+            <input type="text" id="couponId" name="couponId" value="" hidden>
+            <p style="font-weight: 800;">Choose Your Payment.</p>
+            <div class="checkout__input__checkbox">
+              <label for="payment">
+                Cash On Delivery
+                <input type="checkbox" id="payment" value="COD" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="checkout__input__checkbox">
+              <label for="paypal">
+                Paypal
+                <input type="checkbox" id="paypal" value="Paypal" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="checkout__input__checkbox">
+              <label for="razorpay">
+                Razorpay
+                <input type="checkbox" id="razorpay" value="Razorpay" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+             <div class="checkout__input__checkbox">
+              <label for="wallet">
+                Wallet
+                <input type="checkbox" id="wallet" value="Wallet" name="payment">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+             <span id="errormsg" style="color: red;"></span>
+            <button data-toggle="modal" data-target="#myModal" type="submit" class="site-btn">PLACE ORDER</button>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+{{!-- model for order placed --}}
+{{!-- <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="cardmodel">
+      <div class="card-img"> <img class="img-fluid"
+          src="https://uploads-ssl.webflow.com/5ef0df6b9272f7410180a013/60c0e28575cd7c21701806fd_q1cunpuhbdreMPFRSFLyfUXNzpqv_I5fz_plwv6gV3sMNXwUSPrq88pC2iJijEV7wERnKXtdTA0eE4HvdnntGo9AHAWn-IcMPKV-rZw1v75vlTEoLF4OdNqsRb7C6r7Mvzrm7fe4.png">
+      </div>
+      <div class="card-title">
+        <p>Success!</p>
+      </div>
+      <div class="card-text">
+        <p>Yay! It's a nice order! <br>It will arrive soon.</p>
+      </div> <button class="btn">Ok</button>
+    </div>
+  </div>
+</div> --}}
+{{!-- model for order placed --}}
+<div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive"
+  aria-atomic="true">
+  <div class="d-flex">
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+      aria-label="Close"></button>
+  </div>
+</div>
+
+
+
+
+{{!-- razorpay library --}}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+  //coupon apply
+
+  const $form = $('#coupon')
+
+  $form.on('submit', submitHandler)
+
+  function submitHandler(e) {
+    e.preventDefault()
+
+    $.ajax({
+      url: '/apply-coupon',
+      type: 'POST',
+      data: $form.serialize()
+    }).done(response => {
+      console.log(response)
+      if (response.msg) {
+        document.getElementById('couponerror').classList.remove("d-none");
+        document.getElementById('couponerror').innerText = response.msg;
+        window.addEventListener("click", function (event) {
+          document.getElementById('couponerror').classList.add("d-none");
+        });
+
+      } else {
+        {{!-- document.getElementById('success').classList.remove("d-none"); --}}
+        document.getElementById('couponId').value = response.coupon
+        document.getElementById('success').innerText = "Coupon applied."
+        document.getElementById('close').innerText = " Remove"
+
+        document.getElementById('discount').innerText = response.discount
+        document.getElementById("topay").innerText = response.total
+
+
+
+        window.addEventListener("click", function (event) {
+          {{!-- document.getElementById('success').classList.add("d-none"); --}}
+        });
+
+      }
+    })
+  }
+
+
+  // Place order submit button
+  $('#form').submit((e) => {
+    e.preventDefault()
+    $.ajax({
+      url: "/place-order",
+      method: 'post',
+      data: $('#form').serialize(),
+
+
+      success: (response) => {
+        if (response.err) {
+          document.getElementById('errormsg').innerHTML = response.err
+        }
+
+        else if (response.codSuccess) {
+          location.href = '/orders-list'
+        } else if (response.paypal) {
+          location.href = response.link
+        }
+        else {
+          razorpayPayment(response);
+        }
+
+      }
+    })
+  })
+
+  function razorpayPayment(order) {
+    console.log(order)
+    let amount = order.Order.amount
+
+    var options = {
+      "key": "rzp_test_v2m0GaedS6EV6f", // Enter the Key ID generated from the Dashboard
+      "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Retro Soles",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": order.Order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": function (response) {
+
+
+
+
+        varifyPayment(response, order);
+      },
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+  };
+
+  function varifyPayment(payment, order) {
+    console.log("hi")
+    console.log(payment, order)
+    $.ajax({
+      url: '/verify-payment',
+      data: {
+        payment,
+        order
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          location.href = '/orders-list'
+        } else {
+          alert("payment failed");
+        }
+      }
+    });
+  };
+</script>

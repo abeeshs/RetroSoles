@@ -1,0 +1,44 @@
+<section class="containers forms">
+    <div class="form login">
+        <div class="form-content">
+            <header>OTP </header>
+            {{#if message}}
+            <div class="alert alert-danger" role="alert">
+                {{message}} !
+            </div>
+            {{/if}}
+
+
+            <span class="text-danger"></span>
+
+            <form action="/otp-submit" method="post">
+                <div class="field input-field">
+                    <input type="text" placeholder="Enter the OTP" name="code" class="input">
+                    <input type="text" value="{{this.phoneNumber}}" placeholder="Enter the OTP" name="mobile"
+                        class="input" hidden>
+                </div>
+                <div class="text-center mt-3">
+                    <span class="d-block mobile-text" id="countdown"></span>
+                </div>
+
+                <div class="field button-field">
+                    <button id="otpsubmit" action="submit">Submit</button>
+                </div>
+            </form>
+            <form action="/login/resend-otp" method="post">
+                <input type="text" name="mobile" value="{{this.phoneNumber}}" style="display: none;">
+                
+
+                    <button id="resend" style="background:white; border-color:white;">Resent
+                        <span class="d-block mobile-text" id="resend"></span>
+
+                    </button>
+                
+            </form>
+
+
+        </div>
+
+    </div>
+
+</section>

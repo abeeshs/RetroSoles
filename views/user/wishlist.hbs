@@ -1,0 +1,222 @@
+<div class="app">
+    <div class="menu-toggle">
+        <div class="hamburger">
+            <span></span>
+        </div>
+    </div>
+
+    <aside class="sidebar">
+
+
+        <nav class="menu">
+            <a href="/user-profile" class="menu-item {{this.about}}"><i class="fa-solid fa-user"></i> About Me</a>
+            <a href="/user-all-address" class="menu-item {{this.address}}"><i
+                    class="fa-sharp fa-solid fa-address-card"></i> Address</a>
+            <a href="/orders-list" class="menu-item {{this.orders}}"><i class="fa-solid fa-list"></i> Orders</a>
+            <a href="/wishlist" class="menu-item {{this.wishlist}}"><i class="fa-solid fa-heart"></i> Wishlist</a>
+            <a href="/Wallet" class="menu-item {{this.wallet}}"><i class="fa-solid fa-wallet"></i> Wallet</a>
+        </nav>
+
+    </aside>
+
+    <main class="content">
+        {{#if uwishlist}}
+
+        <div class="container">
+            <div class="table-wrap">
+                <table class="table table-responsive table-borderless">
+                    <thead>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Add to Cart</th>
+                        <th></th>
+
+
+                    </thead>
+                    <tbody>
+                        {{#each uwishlist}}
+                        <tr class="">
+                            <td>
+                                <input type="checkbox" id="check">
+                            </td>
+                            <td class="text-center">
+                                <img class="pic" src="{{this.result.urls.[0]}}" alt="">
+                            </td>
+                            <td>
+                                <div>
+                                    <p class="m-0 fw-bold">{{this.result.product}}</p>
+                                    <p class="m-0 text-muted">{{this.result.description}}</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="fw-600">₹{{this.result.discountprice}}</div>
+                            </td>
+                            <td class="d-">
+                                <div class="fw-600">{{this.quantity}}</div>
+
+                            </td>
+                            <td class="d-">
+                                <div class="fw-600"><button class="btn btn-success">
+                                        <a href="/add-to-cart/{{this.result._id}}" style="color:white;">Add to Cart</a>
+                                    </button></div>
+
+                            </td>
+
+                            <td>
+                                <div class="fw-600">
+                                    <button class="btn btn-dark">
+                                        <a href="/wishlist/remove-product/{{this.result._id}}" style="color:white;"><i
+                                                class="fa-solid fa-xmark"></i></a> </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {{else}}
+        <div class="container">
+            
+            <div class="col d-flex justify-content-center">
+                <div class="card w-40 d-flex justify-content-center">
+                    <h4 class="fw-bold text-dark text-center mt-5">Wishlist Empty</h4>
+                    <a href="/products">
+                        <img src="/img/wishlist.png" class="card-img-top" style="height:350px"
+                            alt="Palm Springs Road" />
+                        <div class="card-body d-flex justify-content-center">
+
+                            <p class="card-text"><a href="/products" class="primary-btn mb-5 ">Go to Shop</a></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+        {{/if}}
+    </main>
+
+</div>
+
+
+
+
+
+<style>
+    .pic {
+        width: 60%;
+        object-fit: contain;
+    }
+
+    .table thead {
+        background-color: #21cf95;
+    }
+
+    .table thead th {
+
+        font-size: 14px;
+        color: white;
+    }
+
+    .table tbody td input[type="checkbox"] {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background-color: #eee;
+        position: relative;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .container .table-wrap {
+
+        margin: 20px auto;
+        overflow-x: auto
+    }
+
+    .container .table-wrap::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .container .table-wrap::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-image: linear-gradient(to right, #5D7ECD, #0C91E6);
+    }
+
+    .table>:not(caption)>*>* {
+        padding: 2rem 0.5rem;
+    }
+
+    .input {
+        width: 30px;
+        height: 30px;
+        color: black;
+        font-weight: 600;
+        outline: none;
+        padding: 8px;
+    }
+
+    ::placeholder {
+        color: black;
+        font-weight: 600;
+    }
+
+    .table tbody td input[type="checkbox"]:after {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 600;
+        content: "\f00c";
+        color: #fff;
+        font-size: 15px;
+        display: none
+    }
+
+    .table tbody td input[type="checkbox"]:checked,
+    .table tbody td input[type="checkbox"]:checked:hover {
+        background-color: #21cf95;
+    }
+
+    .table tbody td input[type="checkbox"]:checked::after {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .table tbody td input[type="checkbox"]:hover {
+        background-color: #ddd;
+    }
+
+    .table tbody td {
+        padding: 30px;
+        margin: 0;
+        font-size: 14.5px;
+        font-weight: 600;
+    }
+
+    .table tbody td .fa-times {
+        color: #D32F2F;
+    }
+
+
+    .text-muted {
+        font-size: 12.5px;
+    }
+
+    .table tbody tr td:nth-of-type(3) {
+        min-width: 320px;
+    }
+
+    @media(min-width: 992px) {
+        .container .table-wrap {
+            overflow: hidden;
+        }
+    }
+</style>

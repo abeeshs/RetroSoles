@@ -1,0 +1,176 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {{!-- index --}}
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/mainstyle.css" type="text/css" />
+{{!-- new admin --}}
+
+<link href="/stylesheets/sb-admin-2.min.css" rel="stylesheet">
+    {{!--
+    <link rel="stylesheet"
+        href="css/A.bootstrap.min.css+font-awesome.min.css+elegant-icons.css+magnific-popup.css+nice-select.css+owl.carousel.min.css+slicknav.min.css+style.css,Mcc.f6PPq5zNCp.css.pagespeed.cf.5SlTa9kfBa.css"
+        type="text/css" /> --}}
+    <link rel="stylesheet"
+        href="/css/bootstrap.min.css+font-awesome.min.css+elegant-icons.css+magnific-popup.css+nice-select.css+owl.carousel.min.css+slicknav.min.css+style.css.pagespeed.cc.f6PPq5zNCp.css"
+        type="text/css" />
+    {{!-- index --}}
+    <!-- bootsrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!--<title> font awesome </title>-->
+    <script src="https://kit.fontawesome.com/1be8d6a8ee.js" crossorigin="anonymous"></script>
+    <!--<title> image zoom </title>-->
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
+
+    <!--<title> cdn </title>-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+    <!-- https://fonts.google.com/specimen/Roboto -->
+    <link rel="stylesheet" href="/stylesheets/fontawesome.min.css" />
+    <!-- https://fontawesome.com/ -->
+    {{!--
+    <link rel="stylesheet" href="jquery-ui-datepicker/jquery-ui.min.css" type="text/css" --}} {{!-- /> --}}
+    <!-- http://api.jqueryui.com/datepicker/ -->
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <!-- https://getbootstrap.com/ -->
+    {{!--
+    <link rel="stylesheet" href="/stylesheets/templatemo-style.css" /> --}}
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/stylesheets/{{style}}.css" />
+
+    {{!-- corpper --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+    
+    {{!-- datatables --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script defer src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+   
+    <!-- Boxicons CSS -->
+    {{!-
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" --}} {{!-- /> --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script defer src="/javascripts/script.js"></script>
+    <script defer src="/javascripts/timer.js"></script>
+
+    {{!-- template javascript files --}}
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js+jquery.nice-select.min.js.pagespeed.jc.ekxuW4by58.js"></script>
+    {{!--
+    <script>eval(mod_pagespeed_JZzsHwPKPa);</script>
+    <script>eval(mod_pagespeed_yAX9X7dlYR);</script> --}}
+    <script
+        src="/js/jquery.nicescroll.min.js+jquery.magnific-popup.min.js+jquery.countdown.min.js.pagespeed.jc.nQBr1vqAX8.js"></script>
+    {{!--
+    <script>eval(mod_pagespeed_ICtRagVbiv);</script>
+    <script>eval(mod_pagespeed_0Tm96Yey2q);</script>
+    <script>eval(mod_pagespeed__0kegk3Rgl);</script> --}}
+    <script defer src="/js/jquery.slicknav.js"></script>
+    <script defer src="/js/mixitup.min.js"></script>
+    <script defer src="/js/owl.carousel.min.js"></script>
+    <script defer src="/js/main.js"></script>
+    <script defer src="/javascripts/validation.js"></script>
+    <script defer src="/js/table2excel.js"></script>
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+
+
+
+</head>
+
+<body>
+    {{#if admin}}
+    {{>admin-header}}
+    {{/if}}
+
+    {{#if active}}
+    {{>user-header}}
+
+    {{/if}}
+
+
+    {{{body}}}
+
+
+
+
+
+
+ {{#if active}}
+    {{>user-footer}}
+{{/if}}
+
+
+
+
+
+
+
+    
+    {{!-- jqueryvalidator --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{!-- <script>
+    const forms = document.querySelector(".forms"),
+        pwShowHide = document.querySelectorAll(".eye-icon"),
+        links = document.querySelectorAll(".link");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.classList.replace("bx-hide", "bx-show");
+                    return;
+                }
+                password.type = "password";
+                eyeIcon.classList.replace("bx-show", "bx-hide");
+            })
+
+        })
+    })
+
+    links.forEach(link => {
+        link.addEventListener("click", e => {
+            e.preventDefault(); //preventing form submit
+            forms.classList.toggle("show-signup");
+        })
+    })
+
+</script> --}}

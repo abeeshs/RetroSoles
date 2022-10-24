@@ -1,0 +1,168 @@
+
+
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Shopping Cart</h4>
+          <div class="breadcrumb__links">
+            <a href="/home">Home</a>
+            <a href="/products">Shop</a>
+            <span>Shopping Cart</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{#if cartItems}}
+<section class="shopping-cart spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="shopping__cart__table">
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+           
+            <tbody>
+               {{#each cartItems}}
+              <tr>
+                <td class="product__cart__item">
+                  
+                  <div class="product__cart__item__pic">
+                    
+                    <img
+                      src="{{this.result.urls.[0]}}"
+                      alt="" data-pagespeed-url-hash="2742041224"
+                      onload="pagespeed.CriticalImages.checkImageForCriticality(this); "style="width:6rem;height:6rem">
+                  </div>
+                  <div class="product__cart__item__text">
+                    <h6>{{this.result.product}}</h6>
+                    <h5 id="amount">₹{{this.result.discountprice}}</h5>
+                  </div>
+                 
+                </td>
+                <td class="quantity__item">
+                  <div class="quantity d-flex justify-content-center">
+                    
+                    <div class="pro-qty-2">
+                      <button class="fa fa-angle-left dec qtybtn quantity" onclick="changeQuantity('{{this._id}}','{{this.result._id}}',-1)" ></button>
+                      <span class="proq" id="{{this.result._id}}">  {{this.quantity}} </span>
+                      <button class="fa fa-angle-right inc qtybtn quantity" onclick="changeQuantity('{{this._id}}','{{this.result._id}}',1)"></button>
+                    </div>
+                    
+                  </div>
+                </td>
+                 
+                <td class="cart__price"></td>
+                <input type="text" value="{{this.result._id}}" name="productId" hidden>
+                  
+                <td class="cart__close"><a href="/cart/remove-item?cartId={{this._id}}&productId={{this.result._id}}"><i class="fa fa-close"></i></a></td>
+              </tr>
+               {{/each}}
+            </tbody>
+           
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="continue__btn">
+              <a href="/products">Continue Shopping</a>
+            </div>
+          </div>
+          {{!-- <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="continue__btn update__btn">
+              <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+            </div>
+          </div> --}}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        {{!-- <div class="cart__discount">
+          <h6>Discount codes</h6>
+          <form action="" id="coupon" method="post">
+            <input type="text" placeholder="Coupon code" name="couponcode">
+            <input type="text" name="total" hidden value="{{totalAmount.total}}">
+            <button type="submit">Apply</button>
+          </form>
+        </div> --}}
+        <div class="cart__total">
+          <h6>Cart total</h6>
+          <ul>
+            {{#with totalAmount}}
+            {{!-- <li >Subtotal <span class="sub">Rs.{{this.total}}</span></li> --}}
+            <li>Total Rs. <span class="sub">{{this.total}}</span></li>
+            {{/with}}
+          </ul>
+          <a href="/checkout-product" class="primary-btn">Proceed to checkout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{else}}
+<div class="container  flex-column ">
+  <img src="/img/cartEmpty.jpg" alt="">
+  <a href="/products" class="primary-btn mb-5">Go to Shop</a>
+</div>
+
+{{/if}}
+
+
+
+
+
+
+
+<script>
+  // -------changing product quantity------//
+
+  function changeQuantity(cartId,productId,count){
+    var quantity =parseInt(document.getElementById(productId).innerHTML)
+    count=parseInt(count)
+    console.log(count)
+    console.log(quantity)
+    $.ajax({
+      url:'/change-product-quantity',
+      data:{
+        cart:cartId,
+        product:productId,
+        count:count,
+        quantity:quantity
+      },
+      method:'post',
+      success:(response)=>{
+       
+        console.log(response)
+        if(response.status=="removeProduct"){
+          
+          location.reload()
+        }else{
+          document.getElementById(productId).innerHTML=quantity+count
+           document.querySelector('.sub').innerHTML=response.totalAmount
+          
+          
+        }
+      }
+   })
+  
+  }
+  
+
+          
+</script>
+
+{{!-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194"
+  integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw=="
+  data-cf-beacon='{"rayId":"74447b010dff6ee2","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2022.8.1","si":100}'
+  crossorigin="anonymous"></script> --}}

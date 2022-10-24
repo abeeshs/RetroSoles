@@ -1,0 +1,41 @@
+<div class="container">
+    <h3>Add New Address</h1>
+        <form class="row g-3" id="newaddress" action="/add-address" method="post">
+            <div class="col-md-6">
+                <label for="inputname" class="form-label">First Name</label>
+                <input type="name" class="form-control" id="inputname" name="firstname">
+            </div>
+            <div class="col-md-6">
+                <label for="lastname" class="form-label">Last Name</label>
+                <input type="name" class="form-control" id="lastname" name="lastname">
+            </div>
+            <div class="col-12">
+                <label for="inputAddress" class="form-label">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="address">
+            </div>
+            <div class="col-md-6">
+                <label for="inputCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="inputCity" name="city">
+            </div>
+            <div class="col-md-3">
+                <label for="inputSate" class="form-label">State</label>
+                <input type="text" class="form-control" id="inputSate" name="state">
+            </div>
+            <div class="col-md-3">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="text" class="form-control" id="inputEmail" name="email">
+            </div>
+            <div class="col-md-4">
+                <label for="inputMobile" class="form-label">Mobile</label>
+                <input type="text" class="form-control" id="inputMobile" name="mobile">
+            </div>
+            <div class="col-md-2">
+                <label for="inputZip" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="inputZip" name="zip">
+            </div>
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Add Address</button>
+            </div>
+        </form>
+</div>

@@ -1,0 +1,159 @@
+<!-- DataTales Example -->
+<div id="content-wrapper" class="d-flex flex-column">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Products Management</h6>
+        </div>
+        <div class="col-xs-7">
+            <a href="/admin/add-product" class="btn btn-primary"><i class="fa-solid fa-pen"></i>
+                <span>Add
+                    new Product </span></a>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="d-flex">
+                    <div class="shop__product__option__right" style="width:160px;">
+                        <p class="me-3">Sort by Name:</p>
+                        <br>
+                        <div class="dropdown mb-3">
+                            <button class=" dropdown-toggle border-0 opacity-5" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" onclick="nameSort(1)" >A - Z</a></li>
+                                <li><a class="dropdown-item" onclick="nameSort(-1)" >Z - A</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    {{!-- search bar --}}
+                        <form action="/admin/products" method="get">
+                    <div class="input-group ms-5 d-flex flex-row">
+                        <div class="form-outline">
+                            <input type="search" id="form1" class="form-control" name="search" />
+                            
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                        </form>
+                    {{!-- search end --}}
+                    <div class="shop__product__option__right" style="width:160px;">
+                        <p class="me-3">Sort by Price:</p>
+                        <br>
+                        <div class="dropdown mb-3">
+                            <button class=" dropdown-toggle border-0 opacity-5" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" onclick="priceSort(1)" href="?sort=1">Low - High</a></li>
+                                <li><a class="dropdown-item" onclick="priceSort(-1)">High - Low</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <table id="productstable" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Catogory </th>
+                            <th>Subcategory</th>
+                            <th>size</th>
+                            <th>Image</th>
+                            <th>Option</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each product}}
+
+                        <tr>
+
+                            <td>{{this.product}} </td>
+                            <td>{{this.originalprice}}</td>
+                            <td>{{this.category}} </td>
+                            {{#each result}}
+                            <td>{{this.category}} </td>
+                            {{/each}}
+                            <td>{{this.size}}</td>
+
+
+
+                            <td> <img src="{{this.urls.[0]}}" alt="" style="width-50px; height:50px"></td>
+                            {{!-- <td><span class="status text-success">&bull;</span> Active 4</td> --}}
+                            <td>
+                                <a href="/admin/edit-product/{{this._id}}" <i class="fa-solid fa-pen-to-square"></i></a>
+
+                                <a href="/admin/delete-product/{{this._id}}" <i class="fa-solid fa-trash-can"></i></a>
+                            </td>
+
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    <nav aria-label="...">
+                        <ul class="pagination pagination-sm">
+                            {{#each page}}
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link" style="border-radius: 10px; background:#009688"> <a onclick="page({{this}})"  style="color:white;">{{this}}</a></span>
+                            </li>
+                            {{/each}}
+                            
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function nameSort(number) {
+
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    params.set('nsort', number);
+    let newParams = params.toString();
+    location.href = window.location.protocol + "//" + window.location.host + '/admin/products?' + newParams;
+  }
+   function priceSort(number) {
+
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    params.set('sort', number);
+    let newParams = params.toString();
+    location.href = window.location.protocol + "//" + window.location.host + '/admin/products?' + newParams;
+  }
+
+  function page(page) {
+
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    params.set('p', page);
+    let newParams = params.toString();
+    location.href = window.location.protocol + "//" + window.location.host + '/admin/products?' + newParams;
+  }
+
+</script>
+
+
+
+
+
+{{!-- <script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myDIV *").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script> --}}
