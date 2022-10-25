@@ -13,6 +13,7 @@ const { readFile } = require("fs/promises");
 const path = require("path");
 const hbs = require("handlebars");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -1436,15 +1437,13 @@ exports.paypalSuccess = async (req, res) => {
 exports.varifyPayment = async (req, res) => {
   try {
     const details = req.body;
+    console.log(details);
     const objId = req.body["order[Order][receipt]"];
 
-    const crypto = require("crypto");
+    
     let hmac = crypto.createHmac("sha256", "3InpvAluEcXyWP1BuKEZKwla");
-    hmac.update(
-      details["payment[razorpay_order_id]"] +
-        "|" +
-        details["payment[razorpay_payment_id]"]
-    );
+    hmac.update(details["payment[razorpay_order_id]"] +"|" +details["payment[razorpay_payment_id]"]);
+    hmac=hmac.digest('hex')
 
     if (hmac == details["payment[razorpay_signature]"]) {
       const result = await db
@@ -1470,7 +1469,7 @@ exports.varifyPayment = async (req, res) => {
       res.json({ status: false });
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.message,err);
   }
 };
 

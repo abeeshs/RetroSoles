@@ -26,13 +26,13 @@
         <button type="submit">Apply</button>
 
       </form>
-      <span id="success" style="color: green;"></span><span ><a id="close" href="/checkout-product"></a></span>
+      <span id="success" style="color: green;"></span><span><a id="close" href="/checkout-product"></a></span>
       <span id="couponerror" style="color:red;"></span>
     </div>
     <div class="checkout__form">
       <div class="row">
         <div class="col-lg-8 col-md-6">
-         
+
           <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
               here</a> to enter your code</h6>
           <h6 class="checkout__title">Billing Details</h6>
@@ -166,14 +166,14 @@
                 <span class="checkmark"></span>
               </label>
             </div>
-             <div class="checkout__input__checkbox">
+            <div class="checkout__input__checkbox">
               <label for="wallet">
                 Wallet
                 <input type="checkbox" id="wallet" value="Wallet" name="payment">
                 <span class="checkmark"></span>
               </label>
             </div>
-             <span id="errormsg" style="color: red;"></span>
+            <span id="errormsg" style="color: red;"></span>
             <button data-toggle="modal" data-target="#myModal" type="submit" class="site-btn">PLACE ORDER</button>
           </div>
         </div>
@@ -242,7 +242,7 @@
         });
 
       } else {
-        {{!-- document.getElementById('success').classList.remove("d-none"); --}}
+
         document.getElementById('couponId').value = response.coupon
         document.getElementById('success').innerText = "Coupon applied."
         document.getElementById('close').innerText = " Remove"
@@ -253,7 +253,7 @@
 
 
         window.addEventListener("click", function (event) {
-          {{!-- document.getElementById('success').classList.add("d-none"); --}}
+          document.getElementById('success').classList.add("d-none");
         });
 
       }
@@ -302,9 +302,6 @@
       "order_id": order.Order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "handler": function (response) {
 
-
-
-
         varifyPayment(response, order);
       },
       "prefill": {
@@ -321,6 +318,15 @@
     };
     var rzp1 = new Razorpay(options);
     rzp1.open();
+    rzp1.on('payment.failed', function (response) {
+      console.log(response.error.code);
+      console.log(response.error.description);
+      console.log(response.error.source);
+      console.log(response.error.step);
+      console.log(response.error.reason);
+      console.log(response.error.metadata.order_id);
+      console.log(response.error.metadata.payment_id);
+    }); // will pass error object to error handler
 
   };
 
