@@ -28,10 +28,12 @@
           <div class="mt-2 pr-3 content">
             <p>{{this.description}}</p>
           </div>
-          <h3>Rs.{{this.discountprice}}</h3> <del>
-            <h3 class="disc">Rs.{{this.originalprice}}</h3>
-          </del>
-          <div class="ratings d-flex flex-row align-items-center">
+          <span class="fs-3 pr-2">Rs.{{this.discountprice}} </span> <span> <del class="text-secondary">Rs.{{this.originalprice}}</del></span>
+          <span class="text-success fw-bold">{{this.productOffer}} %off</span> 
+          <p class="fw-bold pt-3">Category: {{this.subcategory}}</p>
+          <p class="fw-bold"> Brand: {{this.brand}}</p>
+
+          {{!-- <div class="ratings d-flex flex-row align-items-center">
             <div class="d-flex flex-row">
               <i class="bx bxs-star"></i>
               <i class="bx bxs-star"></i>
@@ -40,22 +42,17 @@
               <i class="bx bx-star"></i>
             </div>
             <span>441 reviews</span>
+          </div> --}}
+          <div class="mt">
+            <span class="fw-bold">Size: {{this.size}}</span>  
           </div>
-          <div class="mt-5">
-            <span class="fw-bold">Size</span>
-            <div class="colors">
-              <ul id="marker">
-                <li id="marker-1">{{this.size}}</li>
-                {{!-- <li id="marker-2"><i class="far fa-circle"></i></li>
-                <li id="marker-3"><i class="far fa-circle"></i></li>
-                <li id="marker-4"><i class="far fa-circle"></i></li>
-                <li ><i class="far fa-circle"></i></li> --}}
-              </ul>
-            </div>
-          </div>
-          <div class="buttons d-flex flex-row mt-5 gap-3">
+          <div class="buttons d-flex flex-row mt-5 gap-3 col-12 ">
+            {{#if ../isWishlist}}
+            <a href="/add-to-wishlist/{{this._id}}"><button class="btn btn-outline-dark col-12">Remove from Wishlist</button></a>
+            {{else}}
             <a href="/add-to-wishlist/{{this._id}}"><button class="btn btn-outline-dark">Add to Wishlist</button></a>
-            <a href="/add-to-cart/{{this._id}}"><button class="btn btn-dark">Add to Cart</button></a>
+            {{/if}}
+            <button class="btn btn-dark" onclick="addToCart(event,'{{this._id}}')">Add to Cart</button>
           </div>
           {{!-- <div class="search-option">
             <i class="bx bx-search-alt-2 first-search"></i>
@@ -69,4 +66,41 @@
 {{/with}}
 </div>
 
+<script>
+  function addToCart(event, id) {
+    console.log(id)
+    event.preventDefault();
+    $.ajax({
+      url: '/add-to-cart',
+      data: {
+        productId: id
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          let count=document.getElementById('cart');
+          count.textContent=1+Number(count.textContent)
+          console.log(count)
+          
+          // Alert the copied text
+          Toastify({
+            text: "Product added to cart",
+            duration: 3000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              // background: "linear-gradient(to right, #485563, #29323c)",
+              background: "black",
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+        } else {
+          location.href = '/login'
 
+        }
+
+      }
+    });
+  }
+</script>

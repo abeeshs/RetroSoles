@@ -128,45 +128,34 @@
       {{#each products}}
       <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
         <div class="product__item">
-          <div class="product__item__pic set-bg" data-setbg="{{this.urls.[0]}}">
+          <a class="" href="/products/view-product/{{this._id}}">
+          <div class="product__item__pic set-bg" >
+            <img src="{{this.urls.[0]}}" alt="">
             <span class="label">New</span>
             <ul class="product__hover">
               <li><a href="/add-to-wishlist/{{this._id}}"><img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAMAAAAs2N9uAAAABGdBTUEAALGPC/xhBQAAAQtQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4co3XAAAAFh0Uk5TABB4w9ejKBWR1ciKHSvk7JN2zPhgPurgfYfd9EYJxBEDfvykDAWg8x5kF12GAdahqNC1j2Hil7fGRTgZ63Wr5grK0wgLydwcviAP0SYt3yTFzg3Z2x8GlW7p2RQAAACzSURBVBjTVc7VEoJgEAXgY/4mdmIndjd2YSC2vv+TCGPB3uzON2d2F4BKrdHq9AAxGE1mC8SyUja7w+lye7w+fyBIh4BwMBIFYvFnIpkC0pksgxydl7IoFEtSS5cNqFShKHUN9YaSmi20O0oyd9FL9OUyYIfAaMz8ZTKdzYHFcrX+CUdtpL7dfW3Csfv3RGZvE4X/5snuIIjpo5f/b90uxzw5UYL89pljL9eb8sP7Y0Q+4wviFBaGoW6hzAAAAABJRU5ErkJggg=="
-                    alt="" data-pagespeed-url-hash="935450538"
-                    onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li>
-              {{!-- <li><a href="#"><img src="img/icon/xcompare.png.pagespeed.ic.UIWeUFOM61.png" alt=""
-                    data-pagespeed-url-hash="3485206841"
-                    onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> <span>Compare</span></a></li>
-              <li><a href="#"><img
+                    alt="" data-pagespeed-url-hash="935450538"></a></li>
+              <li><a href="#"><i class="fa-thin fa-bag-shopping"></i> <span>Compare</span></a></li>
+              {{!-- <li><a href="#"><img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAMAAADjcdz2AAAABGdBTUEAALGPC/xhBQAAAORQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsLyIwAAAEt0Uk5TABB1xu7MfxY/5fiteJ/x71A79sIgEaT9TAjexweh7V7+Kw/sqMSXzpRn5pJm6Kq+kMP7IwndugORPbETjk9D8GOK4/oByPKCFU551a0uSgAAAJ5JREFUGNNdy9UWggAURNGDHSi2mJhgYWJ3i/7///gAyFrO2+y5F0DweH0+fyCInVA4EhU9sbiUsHoylc4AZHN5GaBQLJXt00pVAJRa3fltNEWg1eYXtQ1oHRe6PUDruzDQgeHIhfEEUKYzpxu6CBjzxdKGlSQArFObLYCx++yt4aAf1ZNyvhyv6s0SQbxLD+35Mn/ixLzu+JfAn8jvLyoND535naQeAAAAAElFTkSuQmCC"
                     alt="" data-pagespeed-url-hash="3756334862"
                     onload="pagespeed.CriticalImages.checkImageForCriticality(this);"></a></li> --}}
             </ul>
           </div>
-
-          <div class="product__item__text">
+            </a>
+          <div class="product__item__text mt-5">
             <h6>{{this.product}}</h6>
             <a href="/add-to-cart/{{this._id}}" class="add-cart">+ Add To Cart</a>
             <div class="rating">
-              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o active"></i>
               <i class="fa fa-star-o"></i>
               <i class="fa fa-star-o"></i>
               <i class="fa fa-star-o"></i>
               <i class="fa fa-star-o"></i>
             </div>
             <h5>Rs.{{this.discountprice}}</h5>
-            {{!-- <div class="product__color__select">
-              <label for="pc-1">
-                <input type="radio" id="pc-1">
-              </label>
-              <label class="active black" for="pc-2">
-                <input type="radio" id="pc-2">
-              </label>
-              <label class="grey" for="pc-3">
-                <input type="radio" id="pc-3">
-              </label>
-            </div> --}}
+            
           </div>
 
         </div>

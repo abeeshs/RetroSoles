@@ -1,7 +1,7 @@
 var db = require("../config/connection");
 const collection = require("../config/collection");
 const multer = require("multer");
-const cloudinary = require("../helpers/cloudinary");
+const cloudinary = require("../controller/cloudinary");
 const {
   ItemAssignmentContext,
 } = require("twilio/lib/rest/numbers/v2/regulatoryCompliance/bundle/itemAssignment");

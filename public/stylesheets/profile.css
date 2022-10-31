@@ -7,7 +7,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    list-style-type: none
 }
 
 .app {
@@ -131,7 +131,7 @@ body {
 
 @media (max-width: 768px) {
     .menu-toggle {
-        display: block;
+        
         z-index: 1;
     }
 
@@ -145,12 +145,24 @@ body {
         left: -300px;
         height: 100vh;
         width: 100%;
-        max-width: 300px;
+        max-width: 275px;
         transition: 0.2s linear;
     }
 
     .sidebar.is-active {
         left: 0;
     }
+    
+
+}
+.user-profile li:hover {
+     /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.0.1); 
+    transition: transform .7s ease;
+    color: #FFF;
+  }
+  .user-profile{
+    list-style-type: none;
 }
 /* --------------user profile sidebar style------------- */

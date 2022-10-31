@@ -80,7 +80,7 @@
         </nav>
       </div>
       <div class="col-lg-3 col-md-3">
-        <div class="header__nav__option  d-flex flex-row align-items-center">
+        <div class="header__nav__option  d-flex flex-row align-items-center justify-content-center">
           <a href="#" class="search-switch"><img
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAMAAADjcdz2AAAABGdBTUEAALGPC/xhBQAAAORQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsLyIwAAAEt0Uk5TABB1xu7MfxY/5fiteJ/x71A79sIgEaT9TAjexweh7V7+Kw/sqMSXzpRn5pJm6Kq+kMP7IwndugORPbETjk9D8GOK4/oByPKCFU551a0uSgAAAJ5JREFUGNNdy9UWggAURNGDHSi2mJhgYWJ3i/7///gAyFrO2+y5F0DweH0+fyCInVA4EhU9sbiUsHoylc4AZHN5GaBQLJXt00pVAJRa3fltNEWg1eYXtQ1oHRe6PUDruzDQgeHIhfEEUKYzpxu6CBjzxdKGlSQArFObLYCx++yt4aAf1ZNyvhyv6s0SQbxLD+35Mn/ixLzu+JfAn8jvLyoND535naQeAAAAAElFTkSuQmCC"
               alt="" data-pagespeed-url-hash="3756334862"></a>
@@ -90,11 +90,12 @@
           {{#if count}}
           <a href="/cart"><img
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAMAAABl5a5YAAAABGdBTUEAALGPC/xhBQAAAKhQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALN9IhgAAADd0Uk5TAANanaRrCwzD/LOn894hju4xGte9V2DsuZxoXBmi8uDi6NDAkBBA8AKRGASSFLvBcKbqScjMae646zAAAABtSURBVBjTY2AAAUYmZhZWNgY4YOfg5OLm4eWDC/ALCDIwCAmLQGRFxcTEJcSAQNJcSkxahkFWTl7BXFEeCECUuBKDsgqDqrkaSC2IElMHCWhoaoEEtHV0oQJIYBAJ6OkbIAFDIwZjEyUkYGoGAA8AEZBIoP/iAAAAAElFTkSuQmCC"
-              alt="" data-pagespeed-url-hash="952819918"> <span class="badge bg-dark text-white position-absolute" style="top:-3;left:10;">{{count}}</span></a>
+              alt="" data-pagespeed-url-hash="952819918"> <span id="cart" class="badge bg-dark text-white position-absolute" style="top:-3;left:10;">{{count}}</span></a>
           {{else}}
           <a href="/cart"><img
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAMAAABl5a5YAAAABGdBTUEAALGPC/xhBQAAAKhQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALN9IhgAAADd0Uk5TAANanaRrCwzD/LOn894hju4xGte9V2DsuZxoXBmi8uDi6NDAkBBA8AKRGASSFLvBcKbqScjMae646zAAAABtSURBVBjTY2AAAUYmZhZWNgY4YOfg5OLm4eWDC/ALCDIwCAmLQGRFxcTEJcSAQNJcSkxahkFWTl7BXFEeCECUuBKDsgqDqrkaSC2IElMHCWhoaoEEtHV0oQJIYBAJ6OkbIAFDIwZjEyUkYGoGAA8AEZBIoP/iAAAAAElFTkSuQmCC"
-              alt="" data-pagespeed-url-hash="952819918"> <span class="badge bg-primary"></span></a>
+              alt="" data-pagespeed-url-hash="952819918"> <span id="cart" class="badge bg-dark text-white position-absolute" style="top:-3;left:10;">{{count}}</span></a>
+          
           {{/if}}
 
           {{#if user}}
@@ -124,11 +125,11 @@
 
           </div>
         </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        <div class="canvas__open "><i class="fa fa-bars"></i></div>
       </div>
 </header>
 
-<script>
+{{!-- <script>
   $(document).ready(function(){
     $.ajax({url:"wishlistCount",
     context:document.body,
@@ -140,4 +141,4 @@
     }
     })
   })
-</script>
+</script> --}}

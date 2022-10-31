@@ -75,11 +75,11 @@
           </table>
         </div>
         <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-6">
+          {{!-- <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="continue__btn">
               <a href="/products">Continue Shopping</a>
             </div>
-          </div>
+          </div> --}}
           {{!-- <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="continue__btn update__btn">
               <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
@@ -104,7 +104,7 @@
             <li>Total Rs. <span class="sub">{{this.total}}</span></li>
             {{/with}}
           </ul>
-          <a href="/checkout-product" class="primary-btn">Proceed to checkout</a>
+          <a href="/checkout-product" class="primary-btn text-decoration-none">Proceed to checkout</a>
         </div>
       </div>
     </div>
@@ -113,7 +113,7 @@
 {{else}}
 <div class="container  flex-column ">
   <img src="/img/cartEmpty.jpg" alt="">
-  <a href="/products" class="primary-btn mb-5">Go to Shop</a>
+  <a href="/products" class="primary-btn mb-5 text-decoration-none">Go to Shop</a>
 </div>
 
 {{/if}}

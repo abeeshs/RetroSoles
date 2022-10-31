@@ -3,7 +3,7 @@ const collection = require("../config/collection");
 const session = require("express-session");
 const { request } = require("express");
 const ObjectId = require("mongodb").ObjectId;
-const commonHelper = require("../helpers/common-helper");
+const commonController = require("../controller/commonController");
 const uuid = require("uuid");
 const Razorpay = require("razorpay");
 const paypal = require("paypal-rest-sdk");
@@ -54,7 +54,7 @@ exports.viewHome = async (req, res) => {
       .toArray();
 
     // Cart count
-    const count = await commonHelper.getCartCount(req.session.user);
+    const count = await commonController.getCartCount(req.session.user);
     console.log(count);
     res.render("user/index", {
       products: product,
@@ -162,7 +162,7 @@ exports.userSignup = async (req, res) => {
               transactions: [
                 {
                   orderId: new ObjectId(),
-                  date: commonHelper.date(),
+                  date: commonController.date(),
                   mode: "Credit",
                   type: "Refferal signup Offer",
                   amount: 100,
@@ -187,7 +187,7 @@ exports.userSignup = async (req, res) => {
 
               const objc = {
                 orderId: new ObjectId(),
-                date: commonHelper.date(),
+                date: commonController.date(),
 
                 mode: "Credit",
                 type: "Refferal Offer",
@@ -214,7 +214,7 @@ exports.userSignup = async (req, res) => {
                 transactions: [
                   {
                     orderId: new ObjectId(),
-                    date: commonHelper.date(),
+                    date: commonController.date(),
                     mode: "Credit",
                     type: "Refferal Offer",
                     amount: 100,
@@ -277,11 +277,10 @@ exports.userLogin = async (req, res) => {
         .get()
         .collection(collection.USER_COLLECTION)
         .findOne({ email: email });
-        console.log(user);
-        
+      console.log(user);
 
       if (user) {
-        const correct = await commonHelper.comparePassword(
+        const correct = await commonController.comparePassword(
           password,
           user.password
         );
@@ -635,7 +634,7 @@ exports.viewProducts = async (req, res) => {
       .find()
       .toArray();
     //----cart count function calling-----//
-    const cartCount = await commonHelper.getCartCount(req.session.user);
+    const cartCount = await commonController.getCartCount(req.session.user);
 
     res.render("user/shop", {
       products: result,
@@ -660,29 +659,93 @@ exports.viewProducts = async (req, res) => {
 
 exports.singleView = async (req, res) => {
   try {
+    console.log("hi");
+    console.log(req.params);
     const id = req.params.id;
+    console.log({id});
 
+    const agg = [
+      {
+        $match: {
+          _id: ObjectId(id),
+        },
+      },
+      {
+        $lookup: {
+          from: collection.CATEGORY_COLLECTION,
+          localField: "subcategory",
+          foreignField: "_id",
+          as: "subcategory",
+        },
+      },
+      {
+        $lookup: {
+          from: collection.BRAND_COLLECTION,
+          localField: "brand",
+          foreignField: "_id",
+          as: "brand",
+        },
+      },
+      {
+        $unwind: {
+          path: "$subcategory",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $unwind: {
+          path: "$brand",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          product: 1,
+          description: 1,
+          category: 1,
+          subcategory: "$subcategory.category",
+          brand: "$brand.brand",
+          size: 1,
+          originalprice: 1,
+          discountprice: 1,
+          urls: 1,
+          productDiscount: 1,
+          categoryDiscount: 1,
+        },
+      },
+    ];
     const product = await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
-      .findOne({ _id: ObjectId(id) });
-
-    const result = await db
-      .get()
-      .collection(collection.PRODUCT_COLLECTION)
-      .find()
-      .limit(4)
+      .aggregate(agg)
       .toArray();
+    console.log(product);
+
+    //to get wishlist products
+    const wishlist = await db
+      .get()
+      .collection(collection.WISHLIST_COLLECTION)
+      .findOne({ userId: ObjectId(req.session.user),"products.product_Id":ObjectId(id)});
+    console.log(wishlist);
+    //if product is in wishlist
+    let isWishlist;
+    if(wishlist){
+      isWishlist=true;
+    }else{
+      isWishlist=false;
+    }
+   
+
 
     // Cart count
-    const count = await commonHelper.getCartCount(req.session.user);
+    const count = await commonController.getCartCount(req.session.user);
 
     res.render("user/single-view", {
-      products: product,
-      related: result,
+      products: product[0],
       style: "U-singleview",
       active: true,
       user: true,
+      isWishlist,
       count,
     });
   } catch (err) {
@@ -789,7 +852,7 @@ exports.viewCart = async (req, res) => {
     .toArray();
 
   const totalAmount = total[0];
-  const cartCount = await commonHelper.getCartCount(req.session.user);
+  const cartCount = await commonController.getCartCount(req.session.user);
   if (cartItems) {
     // const total=req.total
     req.cart = cartItems;
@@ -810,70 +873,82 @@ exports.viewCart = async (req, res) => {
 
 exports.addToCart = async (req, res) => {
   try {
-    const productId = ObjectId(req.params.id);
+    if (req.session.loggedIn) {
+      console.log("hi");
+      console.log(req.body);
 
-    const userid = req.session.user;
+      const productId = ObjectId(req.body.productId);
 
-    const proObj = {
-      product_Id: productId,
-      quantity: 1,
-    };
-    //-------Checking Cart Existing or not---------
-    const userCart = await db
-      .get()
-      .collection(collection.CART_COLLECTION)
-      .findOne({ userId: ObjectId(userid) });
+      const userid = req.session.user;
 
-    //--------------if cart Exist--------------------
-    if (userCart) {
-      const proExist = await db
+      const proObj = {
+        product_Id: productId,
+        quantity: 1,
+      };
+      //-------Checking Cart Existing or not---------
+      const userCart = await db
         .get()
         .collection(collection.CART_COLLECTION)
-        .find({
-          userId: ObjectId(userid),
-          products: { $elemMatch: { product_Id: productId } },
-        })
-        .toArray();
+        .findOne({ userId: ObjectId(userid) });
 
-      //-----------------if product already not exist ----------
-      if (proExist.length === 0) {
-        const product = await db
+      //--------------if cart Exist--------------------
+      if (userCart) {
+        const proExist = await db
           .get()
           .collection(collection.CART_COLLECTION)
-          .updateOne(
-            { userId: ObjectId(userid) },
-            {
-              $push: { products: proObj },
-            }
-          );
+          .find({
+            userId: ObjectId(userid),
+            products: { $elemMatch: { product_Id: productId } },
+          })
+          .toArray();
 
-        //------------------if the product is exist-------------------
+        //-----------------if product already not exist ----------
+        if (proExist.length === 0) {
+          const product = await db
+            .get()
+            .collection(collection.CART_COLLECTION)
+            .updateOne(
+              { userId: ObjectId(userid) },
+              {
+                $push: { products: proObj },
+              }
+            );
+
+          //------------------if the product is exist-------------------
+        } else {
+          const product = await db
+            .get()
+            .collection(collection.CART_COLLECTION)
+            .updateOne(
+              { "products.product_Id": productId },
+              {
+                $inc: { "products.$.quantity": 1 },
+              }
+            );
+        }
+
+        //----------------If User Cart Does not exist----------------
       } else {
-        const product = await db
+        const proObj = {
+          userId: ObjectId(req.session.user),
+          products: [{ product_Id: productId, quantity: 1 }],
+        };
+
+        const upProd = await db
           .get()
           .collection(collection.CART_COLLECTION)
-          .updateOne(
-            { "products.product_Id": productId },
-            {
-              $inc: { "products.$.quantity": 1 },
-            }
-          );
+          .insertOne(proObj);
       }
 
-      //----------------If User Cart Does not exist----------------
+      res.json({
+        status: true,
+      });
     } else {
-      const proObj = {
-        userId: ObjectId(req.session.user),
-        products: [{ product_Id: productId, quantity: 1 }],
-      };
-
-      const upProd = await db
-        .get()
-        .collection(collection.CART_COLLECTION)
-        .insertOne(proObj);
+      
+      res.json({
+        status: false,
+      });
     }
-
-    res.redirect("back");
   } catch (err) {
     console.log(err);
   }
@@ -885,6 +960,7 @@ exports.addToCart = async (req, res) => {
 
 exports.removeProduct = async (req, res) => {
   const { cartId, productId } = req.query;
+  console.log(cartId,productId);
 
   const result = await db
     .get()
@@ -995,7 +1071,7 @@ exports.checkoutProduct = async (req, res) => {
       .toArray();
 
     // Cart count
-    const count = await commonHelper.getCartCount(req.session.user);
+    const count = await commonController.getCartCount(req.session.user);
     const userAddress = address[0].address;
 
     res.render("user/checkout", {
@@ -1199,7 +1275,7 @@ exports.orderPlace = async (req, res) => {
         userId: ObjectId(req.session.user),
         tracking_id: uuid.v4(),
         date: new Date(),
-        ordered_on: commonHelper.date(),
+        ordered_on: commonController.date(),
         address: address[0].address,
         payment: {
           method: req.body.payment,
@@ -1245,7 +1321,7 @@ exports.orderPlace = async (req, res) => {
           const totalWallet = userWallet.walletAmount - afterDisc;
           const objc = {
             orderId: order.insertedId,
-            date: commonHelper.date(),
+            date: commonController.date(),
 
             mode: "Debit",
             type: "Product Purchase",
@@ -1440,10 +1516,13 @@ exports.varifyPayment = async (req, res) => {
     console.log(details);
     const objId = req.body["order[Order][receipt]"];
 
-    
     let hmac = crypto.createHmac("sha256", "3InpvAluEcXyWP1BuKEZKwla");
-    hmac.update(details["payment[razorpay_order_id]"] +"|" +details["payment[razorpay_payment_id]"]);
-    hmac=hmac.digest('hex')
+    hmac.update(
+      details["payment[razorpay_order_id]"] +
+        "|" +
+        details["payment[razorpay_payment_id]"]
+    );
+    hmac = hmac.digest("hex");
 
     if (hmac == details["payment[razorpay_signature]"]) {
       const result = await db
@@ -1469,7 +1548,7 @@ exports.varifyPayment = async (req, res) => {
       res.json({ status: false });
     }
   } catch (err) {
-    console.log(err.message,err);
+    console.log(err.message, err);
   }
 };
 
@@ -1594,8 +1673,8 @@ exports.viewUserProfile = async (req, res) => {
       .collection(collection.USER_COLLECTION)
       .findOne({ _id: ObjectId(userId) });
 
-      // Cart count
-    const count= await commonHelper.getCartCount(req.session.user);
+    // Cart count
+    const count = await commonController.getCartCount(req.session.user);
 
     res.render("user/user-profile", {
       active: true,
@@ -1603,7 +1682,7 @@ exports.viewUserProfile = async (req, res) => {
       about: "is-active",
       style: "profile",
       user: details,
-      count
+      count,
     });
   } catch (err) {
     console.log(err);
@@ -1651,7 +1730,7 @@ exports.viewUserallAddresss = async (req, res) => {
     const userAddress = address[0].address;
 
     // Cart count
-    const count = await commonHelper.getCartCount(req.session.user);
+    const count = await commonController.getCartCount(req.session.user);
     res.render("user/list-all-address", {
       userAddress,
       active: true,
@@ -1677,7 +1756,7 @@ exports.viewOrdersList = async (req, res) => {
     if (req.query?.p) {
       pageNo = req.query.p - 1 || 0;
     }
-    let limit = 5;
+    let limit = 4;
 
     const order = await db
       .get()
@@ -1709,7 +1788,7 @@ exports.viewOrdersList = async (req, res) => {
       .collection(collection.ORDER_COLLECTION)
       .find()
       .toArray();
-    let max = allOrder.length / 5;
+    let max = allOrder.length / limit;
     let m = Math.ceil(max);
     let page = [];
     for (let i = 1; i <= m; i++) {
@@ -1717,7 +1796,7 @@ exports.viewOrdersList = async (req, res) => {
     }
 
     // Cart count
-    const count = await commonHelper.getCartCount(req.session.user);
+    const count = await commonController.getCartCount(req.session.user);
     res.render("user/order-details", {
       active: true,
       user: true,
@@ -1986,7 +2065,7 @@ exports.orderCancel = async (req, res) => {
         const totalWallet = walletExist.walletAmount + sub;
         const objc = {
           orderId: trackingId,
-          date: commonHelper.date(),
+          date: commonController.date(),
 
           mode: "Credit",
           type: "Refund",
@@ -2012,7 +2091,7 @@ exports.orderCancel = async (req, res) => {
           transactions: [
             {
               orderId: trackingId,
-              date: commonHelper.date(),
+              date: commonController.date(),
               mode: "Credit",
               type: "Refund",
               amount: sub,
@@ -2114,9 +2193,11 @@ exports.getWishlist = async (req, res) => {
         },
       ])
       .toArray();
+    console.log("ithu");
+    console.log(uwishlist);
 
     // Cart count
-    const count = await commonHelper.getCartCount(req.session.user);
+    const count = await commonController.getCartCount(req.session.user);
     res.render("user/wishlist", {
       active: true,
       user: true,
@@ -2196,7 +2277,7 @@ exports.addWishlist = async (req, res) => {
         .collection(collection.WISHLIST_COLLECTION)
         .insertOne(proObj);
     }
-    res.redirect("/products");
+    res.redirect("back");
   } catch (err) {
     console.log(err);
   }
@@ -2304,14 +2385,14 @@ exports.viewWallet = async (req, res) => {
 
     const walletD = walletDetails;
     // Cart count
-    const count = await commonHelper.getCartCount(req.session.user);
+    const count = await commonController.getCartCount(req.session.user);
     res.render("user/wallet", {
       active: true,
       user: true,
       style: "profile",
       wallet: "is-active",
       walletD,
-      count
+      count,
     });
   } catch (err) {
     console.log(err);
@@ -2449,7 +2530,7 @@ exports.returnProduct = async (req, res) => {
       const totalWallet = walletExist.walletAmount + Number(total);
       const objc = {
         orderId: id,
-        date: commonHelper.date(),
+        date: commonController.date(),
         mode: "Credit",
         type: "Return",
         amount: Math.ceil(total),
@@ -2463,8 +2544,8 @@ exports.returnProduct = async (req, res) => {
             $set: { walletAmount: totalWallet },
             $push: {
               transactions: {
-                orderId: id,
-                date: commonHelper.date(),
+                orderId: trackingId,
+                date: commonController.date(),
 
                 mode: "Credit",
                 type: "Return",
@@ -2481,7 +2562,7 @@ exports.returnProduct = async (req, res) => {
         transactions: [
           {
             orderId: trackingId,
-            date: commonHelper.date(),
+            date: commonController.date(),
             mode: "Credit",
             type: "Return",
             amount: Math.ceil(total),
@@ -2511,31 +2592,44 @@ exports.returnProduct = async (req, res) => {
 
 //------------User change password-------------
 //Method-Post
-exports.changePassword=async(req,res)=>{
-  try{
+exports.changePassword = async (req, res) => {
+  try {
     console.log(req.body);
-    if(!req.body.newPassword ||!req.body.confirm ||!req.body.currentPassword){
-      res.json({err:"Please fill all fields*"});
-    }else if(req.body.newPassword !=req.body.confirm){
-      res.json({err:"Password didn't match*"});
-    }else{
-      const user =await db.get().collection(collection.USER_COLLECTION).findOne({_id:ObjectId(req.session.user)})
+    if (
+      !req.body.newPassword ||
+      !req.body.confirm ||
+      !req.body.currentPassword
+    ) {
+      res.json({ err: "Please fill all fields*" });
+    } else if (req.body.newPassword != req.body.confirm) {
+      res.json({ err: "Password didn't match*" });
+    } else {
+      const user = await db
+        .get()
+        .collection(collection.USER_COLLECTION)
+        .findOne({ _id: ObjectId(req.session.user) });
       console.log(user);
-      const userPassword=user.password
-      const enteredPassword=req.body.currentPassword
-      const userExist= await commonHelper.comparePassword(enteredPassword,userPassword);
+      const userPassword = user.password;
+      const enteredPassword = req.body.currentPassword;
+      const userExist = await commonController.comparePassword(
+        enteredPassword,
+        userPassword
+      );
       console.log(userExist);
-      if(!userExist){
-        res.json({err:"Incorrect Password"})
-      }else{
+      if (!userExist) {
+        res.json({ err: "Incorrect Password" });
+      } else {
         const passwrd = await bcrypt.hash(req.body.confirm, 12);
-        await db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectId(req.session.user)},{$set:{password:passwrd}})
-        
-        res.json({status:true})
+        await db
+          .get()
+          .collection(collection.USER_COLLECTION)
+          .updateOne(
+            { _id: ObjectId(req.session.user) },
+            { $set: { password: passwrd } }
+          );
+
+        res.json({ status: true });
       }
     }
-
-  }catch(err){
-
-  }
-}
+  } catch (err) {}
+};

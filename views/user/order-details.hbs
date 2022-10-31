@@ -1,25 +1,24 @@
-<div class="container-fluid">
-  <div class="app">
-    <div class="menu-toggle">
-      <div class="hamburger">
-        <span></span>
-      </div>
-    </div>
+<div class="row">
+  <div class="col-sm-12 col-md-3 col-lg-3">
+    <ul class="user-profile">
+      <li class="pt-5"> <a href="/user-profile"
+          class="nav-link btn btn-dark btn-black-default-hover active ">PROFILE</a></li>
+      <li class="pt-2"> <a href="/orders-list" class="nav-link btn btn-dark btn-black-default-hover active">ORDERS</a>
+      </li>
+      <li class="pt-2"> <a href="/wishlist" class="nav-link btn btn-dark btn-black-default-hover active">WISHLIST</a>
+      </li>
+      <li class="pt-2"> <a href="/user-all-address"
+          class="nav-link btn btn-dark btn-black-default-hover active">ADDRESS</a></li>
+      <li class="pt-2"> <a href="/Wallet" class="nav-link btn btn-dark btn-black-default-hover active">WALLET</a></li>
 
-    <aside class="sidebar">
 
 
-      <nav class="menu">
-        <a href="/user-profile" class="menu-item {{this.about}}"><i class="fa-solid fa-user"></i> About Me</a>
-        <a href="/user-all-address" class="menu-item {{this.address}}"><i class="fa-sharp fa-solid fa-address-card"></i>
-          Address</a>
-        <a href="/orders-list" class="menu-item {{this.orders}}"><i class="fa-solid fa-list"></i> Orders</a>
-        <a href="/wishlist" class="menu-item {{this.wishlist}}"><i class="fa-solid fa-heart"></i> Wishlist</a>
-        <a href="/Wallet" class="menu-item {{this.wallet}}"><i class="fa-solid fa-wallet"></i> Wallet</a>
-      </nav>
+    </ul>
 
-    </aside>
 
+  </div>
+
+  <div class="col-sm-12 col-md-9 col-lg-9">
     <main class="content ">
       {{#each order}}
       <div class="card">
@@ -57,7 +56,7 @@
 
               {{/eq}}
               {{/eq}}
-              
+
             </div>
 
             <div class="col-xl-2 col-lg-2 col-md-4 col-4">
@@ -77,223 +76,222 @@
           <p class="card-text">.</p>
           <a href="#" class="btn btn-primary">Go somewhere</a> --}}
         </div>
-        <div class="collapse" id="collapseExample{{@index}}">
+        <div class="collapse" id="collapseExample{{@index}}" style="max-width: 70vw;">
           <div class="card card-body">
             <div class="row">
 
-            {{#eq this.orderstatus 'Confirmed'}}
-            <h5>Hello..</h5>
-            <p class="text-dark fw-bold">You order has been confirmed and will be shipped in next two days!
-            </p>
-            {{/eq}}
-            <div class="table-responsive">
-              <table class="table">
-                <thead class="bg-light">
-                  <tr>
-                    <th>Product</th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Payment</th>
-                    <th>Order Status</th>
-                    <th>Sub Total</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each products}}
-                  <tr>
-                    <td>
-                      <img src="{{this.image}}" alt="" style="width: 50px;height:50px;">
-
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-
-                        <div class="ms-3">
-
-                          <p class="fw-bold mb-1 text-dark">{{this.productName}}</p>
-
-                        </div>
-
-                      </div>
-                    </td>
-                    <td>Rs.{{this.price}}</td>
-                    <td>{{this.quantity}}</td>
-                    <td>{{../this.payment.method}}</td>
-
-
-                    {{#if this.cancelled}}
-                    <td>
-
-                      <span class="badge badge-danger rounded-pill d-inline">Cancelled</span>
-                    </td>
-                    <td>Rs.{{this.priceTotal}}</td>
-                    {{else}}
-                    {{#if this.returned}}
-                    <td>
-
-                      <span class="badge badge-danger rounded-pill d-inline">Returned</span>
-                    </td>
-                    <td>Rs.{{this.priceTotal}}</td>
-
-
-                    {{else}}
-                    <td>
-
-                      <span class="badge badge-success rounded-pill d-inline">{{../this.orderstatus}}</span>
-                    </td>
-                    <td>Rs.{{this.priceTotal}}</td>
-
-
-                    {{/if}}
-                    {{/if}}
-
-
-
-
-                    {{#eq ../this.orderstatus 'Cancelled'}}
-
-                    {{else}}
-                    {{#eq ../this.orderstatus 'Delivered'}}
-
-                    {{#if this.cancelled}}
-
-                    {{else}}
-                    {{#if this.returned}}
-
-                    {{else}}
-                    <td>
-                      {{!-- <a href="/getInvoice/{{../this.tracking_id}}">Invoice</a> --}}
-                      <a href="/return-product?track={{../this.tracking_id}}&productId={{this.productId}}">
-                        Return</a>
-                    </td>
-                    {{/if}}
-                    {{/if}}
-
-
-                    {{else}}
-
-                    {{#eq ../this.orderstatus 'Returned'}}
-
-                    {{else}}
-                    <td>
-                      <a class="cancel  btn-primary"
-                        href="/cancel-order?track={{../this.tracking_id}}&productId={{this.productId}}">Cancel</a>
-
-
-                    </td>
-
-                    {{/eq}}
-                    {{/eq}}
-                    {{/eq}}
-
-
-
-
-                    {{!-- <td>
-                      <span class="badge badge-success rounded-pill d-inline">{{../this.orderstatus}}</span>
-                    </td> --}}
-
-                  </tr>
-                  {{/each}}
-
-
-                </tbody>
-              </table>
-            </div>
-            <div class="row">
-              {{!-- address --}}
-              <div class="col-md-6 col-lg-6 col-12">
-                <h5 class="ms-3 text-uppercase fw-bold" style="font-family:Candara;">Shipping Address</h5>
-                <div class="d-flex align-items-center">
-                  <div class="ms-3">
-                    <p class="fw-bold mb-1">
-                      {{this.address.firstname}},{{this.address.lastname}},{{this.address.address}},<br>
-                      {{this.address.city}},{{this.address.state}}-{{this.address.zipcode}}</p>
-                    <p>Mobile:{{this.address.mobile}} <br>Email:{{this.address.email}}</p>
-                  </div>
-
-                </div>
-              </div>
-              {{!-- total table --}}
-              <div class="col-md-6 col-lg-6 col-12">
-                <table class="table table-bordered">
-                  <thead>
+              {{#eq this.orderstatus 'Confirmed'}}
+              <h5>Hello..</h5>
+              <p class="text-dark fw-bold">You order has been confirmed and will be shipped in next two days!
+              </p>
+              {{/eq}}
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="bg-light">
                     <tr>
-                      <h5 class="ms-3 text-uppercase fw-bold" style="font-family:Candara;">Price Details
-                      </h5>
+                      <th>Product</th>
+                      <th>Product Name</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Payment</th>
+                      <th>Order Status</th>
+                      <th>Sub Total</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-
+                    {{#each products}}
                     <tr>
-                      <td class="fw-bold">Item Total <h4></h4>
+                      <td>
+                        <img src="{{this.image}}" alt="" style="width: 50px;height:50px;">
+
                       </td>
-                      <td class="text-end">₹ {{this.totalAmountOriginal}}</td>
+                      <td>
+                        <div class="d-flex align-items-center">
 
-                    </tr>
-                    <tr>
-                      <td>Offer Price <h4></h4>
+                          <div class="ms-3">
+
+                            <p class="fw-bold mb-1 text-dark">{{this.productName}}</p>
+
+                          </div>
+
+                        </div>
                       </td>
-                      <td class="text-end">₹ {{this.totalOfferPrice}}</td>
+                      <td>Rs.{{this.price}}</td>
+                      <td>{{this.quantity}}</td>
+                      <td>{{../this.payment.method}}</td>
+
+
+                      {{#if this.cancelled}}
+                      <td>
+
+                        <span class="badge badge-danger rounded-pill d-inline">Cancelled</span>
+                      </td>
+                      <td>Rs.{{this.priceTotal}}</td>
+                      {{else}}
+                      {{#if this.returned}}
+                      <td>
+
+                        <span class="badge badge-danger rounded-pill d-inline">Returned</span>
+                      </td>
+                      <td>Rs.{{this.priceTotal}}</td>
+
+
+                      {{else}}
+                      <td>
+
+                        <span class="badge badge-success rounded-pill d-inline">{{../this.orderstatus}}</span>
+                      </td>
+                      <td>Rs.{{this.priceTotal}}</td>
+
+
+                      {{/if}}
+                      {{/if}}
+
+
+
+
+                      {{#eq ../this.orderstatus 'Cancelled'}}
+
+                      {{else}}
+                      {{#eq ../this.orderstatus 'Delivered'}}
+
+                      {{#if this.cancelled}}
+
+                      {{else}}
+                      {{#if this.returned}}
+
+                      {{else}}
+                      <td>
+                        {{!-- <a href="/getInvoice/{{../this.tracking_id}}">Invoice</a> --}}
+                        <a href="/return-product?track={{../this.tracking_id}}&productId={{this.productId}}">
+                          Return</a>
+                      </td>
+                      {{/if}}
+                      {{/if}}
+
+
+                      {{else}}
+
+                      {{#eq ../this.orderstatus 'Returned'}}
+
+                      {{else}}
+                      <td>
+                        <a class="cancel  btn-primary"
+                          href="/cancel-order?track={{../this.tracking_id}}&productId={{this.productId}}">Cancel</a>
+
+
+                      </td>
+
+                      {{/eq}}
+                      {{/eq}}
+                      {{/eq}}
+
+
+
+
+                      {{!-- <td>
+                        <span class="badge badge-success rounded-pill d-inline">{{../this.orderstatus}}</span>
+                      </td> --}}
 
                     </tr>
-                    <tr>
-                      <td>Discount Applied</td>
-                      <td class="text-end"> <span style="color:green ;">-₹ {{this.couponPrice}}</span> </td>
-
-                    </tr>
-                    <tr>
-                      <td>After Discount</td>
-                      <td class="text-end">₹ {{this.grandTotal}}</td>
-
-                    </tr>
-
-
-
-
-                    {{!-- {{#eq this.totalAmountDiscounted "0"}}
-                    <tr>
-                      <td class="text-danger">Cancelled</td>
-                      <td class="text-danger text-end">-₹ {{this.cancelledAmount}}</td>
-
-                    </tr>
-                    {{/eq}} --}}
-
-                    {{#eq this.cancelledAmount 0}}
-                    <tr>
-                      <td class="fw-bold ">Bill Total</td>
-                      <td class="fw-bold text-end">₹ {{this.totalAmountDiscounted}}</td>
-
-                    </tr>
-                    {{else}}
-
-                    {{#eq this.orderstatus "Cancelled"}}
-                    <tr>
-
-                      <td class="text-danger fw-bold">Cancelled</td>
-                    </tr>
-                    {{else}}
-                    <tr>
-                      <td class="text-danger">Cancelled</td>
-                      <td class="text-danger text-end">-₹ {{this.cancelledAmount}}</td>
-
-                    </tr>
-                    <tr>
-                      <td class="fw-bold ">Bill Total</td>
-                      <td class="fw-bold text-end">₹ {{this.totalAmountDiscounted}}</td>
-
-                    </tr>
-                    {{/eq}}
-                    {{/eq}}
+                    {{/each}}
 
 
                   </tbody>
                 </table>
-
               </div>
-            </div>
+              <div class="row">
+                {{!-- address --}}
+                <div class="col-md-6 col-lg-6 col-12">
+                  <h5 class="ms-3 text-uppercase fw-bold" style="font-family:Candara;">Shipping Address</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="ms-3">
+                      <p class="fw-bold mb-1">
+                        {{this.address.firstname}},{{this.address.lastname}},{{this.address.address}},<br>
+                        {{this.address.city}},{{this.address.state}}-{{this.address.zipcode}}</p>
+                      <p>Mobile:{{this.address.mobile}} <br>Email:{{this.address.email}}</p>
+                    </div>
+
+                  </div>
+                </div>
+                {{!-- total table --}}
+                <div class="col-md-6 col-lg-6 col-12 table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <h5 class="ms-3 text-uppercase fw-bold" style="font-family:Candara;">Price Details
+                        </h5>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <td class="fw-bold">Item Total <h4></h4>
+                        </td>
+                        <td class="text-end">₹ {{this.totalAmountOriginal}}</td>
+
+                      </tr>
+                      <tr>
+                        <td>Offer Price <h4></h4>
+                        </td>
+                        <td class="text-end">₹ {{this.totalOfferPrice}}</td>
+
+                      </tr>
+                      <tr>
+                        <td>Discount Applied</td>
+                        <td class="text-end"> <span style="color:green ;">-₹ {{this.couponPrice}}</span> </td>
+
+                      </tr>
+                      <tr>
+                        <td>After Discount</td>
+                        <td class="text-end">₹ {{this.grandTotal}}</td>
+
+                      </tr>
+
+
+
+
+                      {{!-- {{#eq this.totalAmountDiscounted "0"}}
+                      <tr>
+                        <td class="text-danger">Cancelled</td>
+                        <td class="text-danger text-end">-₹ {{this.cancelledAmount}}</td>
+
+                      </tr>
+                      {{/eq}} --}}
+
+                      {{#eq this.cancelledAmount 0}}
+                      <tr>
+                        <td class="fw-bold ">Bill Total</td>
+                        <td class="fw-bold text-end">₹ {{this.totalAmountDiscounted}}</td>
+
+                      </tr>
+                      {{else}}
+
+                      {{#eq this.orderstatus "Cancelled"}}
+                      <tr>
+
+                        <td class="text-danger fw-bold">Cancelled</td>
+                      </tr>
+                      {{else}}
+                      <tr>
+                        <td class="text-danger">Cancelled</td>
+                        <td class="text-danger text-end">-₹ {{this.cancelledAmount}}</td>
+
+                      </tr>
+                      <tr>
+                        <td class="fw-bold ">Bill Total</td>
+                        <td class="fw-bold text-end">₹ {{this.totalAmountDiscounted}}</td>
+
+                      </tr>
+                      {{/eq}}
+                      {{/eq}}
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -301,7 +299,7 @@
       {{/each}}
 
       {{#if order}}
-      
+
       {{else}}
       <div class="container">
         <div class="col d-flex justify-content-center">
@@ -330,9 +328,10 @@
         </div>
       </div>
     </main>
-
-
   </div>
+
+
+
   {{!-- //pagination --}}
   {{!-- <div class="d-flex justify-content-center align-item-center">
     <nav aria-label="...">

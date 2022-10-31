@@ -1,8 +1,8 @@
 const collection = require("../config/collection");
 const db = require("../config/connection");
-const cloudinary = require("../helpers/cloudinary");
+const cloudinary = require("../controller/cloudinary");
 const router = require("../routes/admin");
-const commonHelper = require("./common-helper");
+const commonController = require("./commonController");
 const { ObjectId } = require("mongodb");
 const puppeteer = require("puppeteer");
 const { readFile, rm } = require("fs/promises");
@@ -428,7 +428,7 @@ exports.addCategory = async (req, res) => {
     const category = {
       category: req.body.category,
       description: req.body.description,
-      created: commonHelper.date(),
+      created: commonController.date(),
     };
 
     const catego = await db
@@ -475,7 +475,7 @@ exports.addBrand = async (req, res) => {
     const brand = {
       brand: req.body.brand,
       description: req.body.description,
-      created: commonHelper.date(),
+      created: commonController.date(),
     };
 
     const catego = await db
@@ -639,7 +639,7 @@ exports.addNewBanner = async (req, res) => {
       banner: req.body.name,
       description: req.body.description,
       image: result.secure_url,
-      created_on: commonHelper.date(),
+      created_on: commonController.date(),
     };
     const bannerUpload = await db
       .get()
@@ -689,7 +689,7 @@ exports.changeOrderStatus = async (req, res) => {
     }
 
     console.log(req.body);
-    const date = commonHelper.date();
+    const date = commonController.date();
 
     const status = await db
       .get()
@@ -728,7 +728,7 @@ exports.addCoupons = async (req, res) => {
     const Obj = {
       coupon: req.body.couponName,
       discount: Number(req.body.discount),
-      created_on: commonHelper.date(),
+      created_on: commonController.date(),
       expires_on: date,
     };
     await db.get().collection(collection.COUPONS_COLLECTION).insertOne(Obj);
@@ -747,8 +747,8 @@ exports.editCoupons = async (req, res) => {
     const Obj = {
       coupon: req.body.couponName,
       discount: Number(req.body.discount),
-      created_on: commonHelper.date(),
-      modified_on: commonHelper.date(),
+      created_on: commonController.date(),
+      modified_on: commonController.date(),
       expires_on: req.body.date,
     };
     await db
@@ -1111,162 +1111,7 @@ exports.editCategoryOffer = async (req, res) => {
   }
 };
 
-//sales report -pdf
-exports.salesReportPdf = async (req, res) => {
-  try {
-    //to get the orderdetails
-    let data = await db
-      .get()
-      .collection(collection.ORDER_COLLECTION)
-      .find()
-      .toArray();
 
-    const compile = async function (templateName, data) {
-      const filePath = path.join(
-        process.cwd(),
-        "/views/sales",
-        `${templateName}.hbs`
-      );
-      const html = await readFile(filePath, "utf-8");
-      console.log(data);
-
-      return hbs.compile(html)(data);
-    };
-    //creating puppeteer
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-    //calling compile function
-    const content = await compile("sales-report", data);
-
-    await page.setContent(content);
-    const filePath = path.join(
-      process.cwd(),
-      "temp",
-      `${data.tracking_id}.pdf`
-    );
-
-    //creating pdf function
-    await page.pdf({
-      path: filePath,
-      format: "A4",
-      printBackground: true,
-    });
-    console.log("done");
-    await browser.close();
-    res.sendFile(filePath);
-  } catch (err) {
-    console.log(err);
-  }
-};
-//sales report excel
-exports.salesReportExcel = async (req, res) => {
-  try {
-    //to get the orderdetails
-    const agg = [
-      {
-        $project: {
-          tracking_id: 1,
-          ordered_on: 1,
-          paymentMode: "$payment.method",
-          products: 1,
-          total: 1,
-          couponPrice: 1,
-        },
-      },
-      {
-        $unwind: {
-          path: "$products",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          details: {
-            $push: {
-              date: "$ordered_on",
-              productName: "$products.productName",
-              price: "$products.subTotal",
-              quantity: "$products.quantity",
-              discountPrice: {
-                $subtract: [
-                  "$products.subTotal",
-                  "$products.discountedSubtotal",
-                ],
-              },
-              revenue: "$products.discountedSubtotal",
-            },
-          },
-        },
-      },
-    ];
-
-    let data = await db
-      .get()
-      .collection(collection.ORDER_COLLECTION)
-      .aggregate(agg)
-      .toArray();
-
-    const XLSX = require("xlsx");
-
-    const convertJsonToExcel = async () => {
-      const workSheet = XLSX.utils.json_to_sheet(data);
-      const workBook = XLSX.utils.book_new();
-
-      XLSX.utils.book_append_sheet(workBook, workSheet, "report");
-      // Generate buffer
-      XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
-
-      // Binary string
-      XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
-      let filename = uuid.v4();
-      XLSX.writeFile(workBook, `${filename}.xlsx`);
-      res.sendFile(`${process.cwd()}/${filename}.xlsx`);
-      await rm(process.cwd() + "/" + filename + ".xlsx");
-    };
-    convertJsonToExcel();
-  } catch (err) {
-    console.log(err);
-  }
-};
-//sales report word
-exports.salesReportWord = (req, res) => {
-  try {
-    const doc = new Document({
-      sections: [
-        {
-          properties: {},
-          children: [
-            new Paragraph({
-              children: [
-                new TextRun("Report"),
-                new TextRun({
-                  text: "Sales report",
-                  bold: true,
-                }),
-                new TextRun({
-                  text: "\tGithub is the best",
-                  bold: true,
-                }),
-                new TextRun({
-                  text: "\tGithub is the best",
-                  bold: true,
-                }),
-              ],
-            }),
-          ],
-        },
-      ],
-    });
-
-    // Used to export the file into a .docx file
-    Packer.toBuffer(doc).then((buffer) => {
-      fs.writeFileSync("My Document.docx", buffer);
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 //sales report
 exports.salesReport = async (req, res) => {
@@ -1292,6 +1137,7 @@ exports.salesReport = async (req, res) => {
         },
       },
     ];
+    
     console.log(req.query);
     let dbQuery = {};
     //datewise report
@@ -1330,11 +1176,14 @@ exports.salesReport = async (req, res) => {
       agg.unshift(dbQuery);
     }
     console.log(agg);
+
     const salesDetails = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
       .aggregate(agg)
       .toArray();
+
+
     console.log(salesDetails);
     let priceTotal = salesDetails.reduce((e, element) => {
       return e + element.price;

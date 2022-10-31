@@ -1,76 +1,82 @@
-<div class="app">
-    <div class="menu-toggle">
-        <div class="hamburger">
-            <span></span>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+            <ul class="user-profile ps-0">
+                <li class="pt-5"> <a href="/user-profile"
+                        class="nav-link btn btn-dark btn-black-default-hover active ">Profile</a></li>
+                <li class="pt-2"> <a href="/orders-list"
+                        class="nav-link btn btn-dark btn-black-default-hover active">Orders</a></li>
+                <li class="pt-2"> <a href="/wishlist"
+                        class="nav-link btn btn-dark btn-black-default-hover active">Wishlist</a></li>
+                <li class="pt-2"> <a href="/user-all-address"
+                        class="nav-link btn btn-dark btn-black-default-hover active">Address</a></li>
+                <li class="pt-2"> <a href="/Wallet"
+                        class="nav-link btn btn-dark btn-black-default-hover active">Wallet</a>
+                </li>
+
+
+
+            </ul>
+
+
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-9 col-lg-9">
+
+            {{!-- commen user prifile sidebar --}}
+            <div class="col-md-10 col-lg-10">
+                <h4 class="text-center mt-2">Address</h4>
+                {{!-- user manage address page --}}
+                <div class="container rounded mt-2 bg-white p-md-5">
+
+                    <a href="/add-address"><button type="button" class="btn btn-dark">Add New Address</button></a>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each userAddress}}
+                                <tr class="bg-blue">
+                                    <td class="pt-2">
+                                        <div>
+                                            <p style="font-weight:800 ;">{{this.firstname}} {{this.lastname}}
+                                                Mob:{{this.mobile}} </p>
+                                        </div>
+                                        <div class="pl-lg-5 pl-md-3 pl-1 name">
+                                            {{this.firstname}} {{this.lastname}}
+                                            <br>{{this.address}},<br>{{this.city}},<br>{{this.state}}-{{this.zipcode}},<br>
+                                            Mob:{{this.mobile}}
+                                            <br>{{this.email}}
+                                        </div>
+                                    </td>
+
+
+                                    <td class="pt-3"><a href="/edit-address/{{this.address_id}}"><i
+                                                class="fa-solid fa-user-pen" style="color:black;"></i></a> </td>
+                                    <td class="pt-3"><a href="/delete-address/{{this.address_id}}"> <i
+                                                class="fa-solid fa-trash" style="color: red;"></i></a>
+                                    </td>
+
+                                </tr>
+                                <tr id="spacing-row">
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {{!-- user mange address page --}}
+            </div>
+
         </div>
     </div>
-
-    <aside class="sidebar">
-
-
-        <nav class="menu">
-            <a href="/user-profile" class="menu-item {{this.about}}"><i class="fa-solid fa-user"></i> About Me</a>
-            <a href="/user-all-address" class="menu-item {{this.address}}"><i class="fa-sharp fa-solid fa-address-card"></i> Address</a>
-            <a href="/orders-list" class="menu-item {{this.orders}}"><i class="fa-solid fa-list"></i> Orders</a>
-            <a href="/wishlist" class="menu-item {{this.wishlist}}"><i class="fa-solid fa-heart"></i> Wishlist</a>
-            <a href="/Wallet" class="menu-item {{this.wallet}}"><i class="fa-solid fa-wallet"></i> Wallet</a>
-
-        </nav>
-
-    </aside>
-
-    <main class="content">
-
-        {{!-- commen user prifile sidebar --}}
-        <div class="col-md-10 col-lg-10">
-            {{!-- user manage address page --}}
-            <div class="container rounded mt-5 bg-white p-md-5">
-                <div class="h2 font-weight-bold">Manage Address</div>
-
-                <a href="/add-address"><button type="button" class="btn btn-dark">Add New Address</button></a>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each userAddress}}
-                            <tr class="bg-blue">
-                                <td class="pt-2">
-                                    <div>
-                                        <p style="font-weight:800 ;">{{this.firstname}} {{this.lastname}}
-                                            Mob:{{this.mobile}} </p>
-                                    </div>
-                                    <div class="pl-lg-5 pl-md-3 pl-1 name">
-                                        {{this.firstname}} {{this.lastname}} <br>{{this.address}},<br>{{this.city}},<br>{{this.state}}-{{this.zipcode}},<br> Mob:{{this.mobile}}
-                                        <br>{{this.email}}
-                                    </div>
-                                </td>
-
-
-                                <td class="pt-3"><a href="/edit-address/{{this.address_id}}"><i class="fa-solid fa-user-pen"
-                                            style="color:black;"></i></a> </td>
-                                <td class="pt-3"><a href="/delete-address/{{this.address_id}}"> <i class="fa-solid fa-trash" style="color: red;"></i></a>
-                                </td>
-
-                            </tr>
-                            <tr id="spacing-row">
-                                <td>
-
-                                </td>
-                            </tr>
-                            {{/each}}
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            {{!-- user mange address page --}}
-        </div>
-    </main>
-
 </div>

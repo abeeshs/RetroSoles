@@ -14,7 +14,7 @@ module.exports = {
         .get()
         .collection(collection.CART_COLLECTION)
         .findOne({ userId: ObjectId(userId) });
-      console.log(cart);
+      
 
       if (cart) {
         const count = cart.products.length;

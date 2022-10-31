@@ -1,129 +1,141 @@
 var express = require("express");
-const commonHelper = require("../helpers/common-helper");
+const commonController = require("../controller/commonController");
 var router = express.Router();
-var userHelper = require("../helpers/users-healper");
+var userController = require("../controller/userController");
 var userMiddleware = require("../middlewares/userMiddleware");
 const { use } = require("./admin");
 
+//_________________________LOGIN SECTION________________________
+
 /* GET users listing. */
-router.get("/home",userHelper.viewHome)
+router.get("/home",userController.viewHome)
 
 //user signup
-router.get("/signup", userHelper.getSignup);
-router.post("/signup", userHelper.userSignup);
+router.get("/signup", userController.getSignup);
+router.post("/signup", userController.userSignup);
 
 //user login
-router.get("/login", userMiddleware.isLogin, userHelper.getLogin);
-router.post("/login", userHelper.userLogin);
+router.get("/login", userMiddleware.isLogin, userController.getLogin);
+router.post("/login", userController.userLogin);
 
 //user logout
-router.get("/logout", userHelper.logOut);
+router.get("/logout", userController.logOut);
 
-//user login with OTPwishlistCount
-router.get("/login-otp", userHelper.getOtpLogin);
-router.post("/login-otp", userHelper.otpLogin);
-router.get("/otp-submit", userHelper.getOtp);
-router.post("/otp-submit", userHelper.submitOtp);
+//user login with OTP
+router.get("/login-otp", userController.getOtpLogin);
+router.post("/login-otp", userController.otpLogin);
+router.get("/otp-submit", userController.getOtp);
+router.post("/otp-submit", userController.submitOtp);
 
 //resend otp
-router.post("/login/resend-otp",userHelper.resendOtp)
-
-//view all products
-router.get("/products", userMiddleware.isLogout,userHelper.viewProducts);
-
-//product single View
-router.get("/products/view-product/:id",userMiddleware.isLogout,userHelper.singleView);
-
-//get cart page
-router.get("/cart", userMiddleware.isLogout, userHelper.viewCart);
-
-// add-to-cart
-router.get("/add-to-cart/:id", userMiddleware.isLogout, userHelper.addToCart);
-
-//remove item from cart
-router.get("/cart/remove-item/", userHelper.removeProduct);
-
-//get checkout product page
-router.get("/checkout-product",userMiddleware.isLogout,userHelper.checkoutProduct);
-
-//place order
-router.post("/place-order",userMiddleware.isLogout,userHelper.orderPlace);
-
-//Razorpay payment verifying
-router.post('/verify-payment',userMiddleware.isLogout,userHelper.varifyPayment);
-
-//paypal 
-router.get('/success',userHelper.paypalSuccess)
-
-//changing product quantity
-router.post("/change-product-quantity",userHelper.changeQuantity,userHelper.getTotalAmount);
-
-//get user profile page
-router.get("/user-profile",userMiddleware.isLogout,userHelper.viewUserProfile);
-
-//update user profile
-router.post("/update-profile",userMiddleware.isLogout,userHelper.updateProfile);
-
-//change Password
-router.post("/change-password",userHelper.changePassword)
-
-//Contact us page
-router.get("/contact-us",userHelper.getContactUsPage)
-
-//all address page user side
-router.get("/user-all-address",userMiddleware.isLogout,userHelper.viewUserallAddresss);
-
-//get all orders page
-router.get("/orders-list", userMiddleware.isLogout,userHelper.viewOrdersList);
-
-//get add address page
-router.get("/add-address", userMiddleware.isLogout,userHelper.getAddAddress);
-router.post("/add-address", userMiddleware.isLogout,userHelper.addAddress);
-
-//edit address
-router.get("/edit-address/:id",userMiddleware.isLogout,userHelper.getEditAddress)
-router.post("/edit-address/:id",userMiddleware.isLogout,userHelper.editAddress)
-
-//delete address
-router.get("/delete-address/:id",userMiddleware.isLogout,userHelper.deleteAddress)
-
-//add new delivery address
-router.post("/add-delivery-addresss",userMiddleware.isLogout, userHelper.addDeliveryAddress);
-
-//cancel orders
-router.get("/cancel-order/",userMiddleware.isLogout,userHelper.orderCancel)
-
-//wishlist
-router.get("/wishlist",userMiddleware.isLogout,userHelper.getWishlist);
-router.get("/wishlistCount",commonHelper.wishlistCount)
-
-//add products to wishlist
-router.get("/add-to-wishlist/:id",userMiddleware.isLogout,userHelper.addWishlist)
-
-//remove from wishist
-router.get("/wishlist/remove-product/:id",userHelper.removeWishlistProduct)
+router.post("/login/resend-otp",userController.resendOtp)
 
 //send otp for forget password
-router.post("/forgot/otp",userHelper.sendForgetOtp)
+router.post("/forgot/otp",userController.sendForgetOtp)
 
 //confirm OTP for forget password
-router.post("/forget/confirm-otp",userHelper.confirmForgetOtp)
+router.post("/forget/confirm-otp",userController.confirmForgetOtp)
 
 //create new password page
-router.get("/create-new-password/:id",userHelper.getResetPassword)
-router.post("/create-new-password",userHelper.resetPassword)
+router.get("/create-new-password/:id",userController.getResetPassword)
+router.post("/create-new-password",userController.resetPassword)
+
+//_______________________________PRODUCTS SECTION__________________________
+
+//view all products
+router.get("/products", userMiddleware.isLogout,userController.viewProducts);
+
+//product single View
+router.get("/products/view-product/:id",userMiddleware.isLogout,userController.singleView);
+
+//get cart page
+router.get("/cart", userMiddleware.isLogout, userController.viewCart);
+
+// add-to-cart
+//router.get("/add-to-cart/:id", userMiddleware.isLogout, userController.addToCart);
+router.post("/add-to-cart", userMiddleware.isLogout, userController.addToCart);
+
+//changing product quantity
+router.post("/change-product-quantity",userMiddleware.isLogout,userController.changeQuantity,userController.getTotalAmount);
+
+//remove item from cart
+router.get("/cart/remove-item/",userMiddleware.isLogout, userController.removeProduct);
+
+//get checkout product page
+router.get("/checkout-product",userMiddleware.isLogout,userController.checkoutProduct);
+
+//Contact us page
+router.get("/contact-us",userController.getContactUsPage);
+
+//add products to wishlist
+router.get("/add-to-wishlist/:id",userMiddleware.isLogout,userController.addWishlist)
+
+//remove from wishist
+router.get("/wishlist/remove-product/:id",userMiddleware.isLogout,userController.removeWishlistProduct);
+
+//______________________________PLACE ORDER SECTION__________________________
+
+
+//place order
+router.post("/place-order",userMiddleware.isLogout,userController.orderPlace);
+
+//Razorpay payment verifying
+router.post('/verify-payment',userMiddleware.isLogout,userController.varifyPayment);
+
+//paypal 
+router.get('/success',userMiddleware.isLogout,userController.paypalSuccess)
+
+
+//_______________________________USER PROFILE SECTION________________________________
+
+//get user profile page
+router.get("/user-profile",userMiddleware.isLogout,userController.viewUserProfile);
+
+//update user profile
+router.post("/update-profile",userMiddleware.isLogout,userController.updateProfile);
+
+//change Password
+router.post("/change-password",userMiddleware.isLogout,userController.changePassword)
+
+
+//all address page user side
+router.get("/user-all-address",userMiddleware.isLogout,userController.viewUserallAddresss);
+
+//get all orders page
+router.get("/orders-list", userMiddleware.isLogout,userController.viewOrdersList);
+
+//get add address page
+router.get("/add-address", userMiddleware.isLogout,userController.getAddAddress);
+router.post("/add-address", userMiddleware.isLogout,userController.addAddress);
+
+//edit address
+router.get("/edit-address/:id",userMiddleware.isLogout,userController.getEditAddress)
+router.post("/edit-address/:id",userMiddleware.isLogout,userController.editAddress)
+
+//delete address
+router.get("/delete-address/:id",userMiddleware.isLogout,userController.deleteAddress)
+
+//add new delivery address
+router.post("/add-delivery-addresss",userMiddleware.isLogout, userController.addDeliveryAddress);
+
+//cancel orders
+router.get("/cancel-order/",userMiddleware.isLogout,userController.orderCancel)
+
+//wishlist
+router.get("/wishlist",userMiddleware.isLogout,userController.getWishlist);
+router.get("/wishlistCount",commonController.wishlistCount)
 
 //apply coupon
-router.post("/apply-coupon",userHelper.applyCoupon)
+router.post("/apply-coupon",userMiddleware.isLogout,userController.applyCoupon)
 
 //wallet
-router.get("/wallet",userHelper.viewWallet);
+router.get("/wallet",userMiddleware.isLogout,userController.viewWallet);
 
 //download invoice
-router.get("/getInvoice/:id",userHelper.downloadInvoice);
+router.get("/getInvoice/:id",userMiddleware.isLogout,userController.downloadInvoice);
 
 //return product
-router.get("/return-product",userHelper.returnProduct)
+router.get("/return-product",userMiddleware.isLogout,userController.returnProduct)
 
 
 

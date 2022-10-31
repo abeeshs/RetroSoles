@@ -1543,6 +1543,8 @@ a.close.disabled {
 }
 .fa-bars:before {
   content: "\f0c9";
+  margin-left: -330px;
+  margin-top: 2px;
 }
 .fa-pinterest:before {
   content: "\f0d2";
@@ -3399,7 +3401,7 @@ ol {
 }
 
 .product__item__text {
-  padding-top: 25px;
+  padding-top: 43px;
   position: relative;
 }
 
@@ -5749,12 +5751,12 @@ ol {
     width: 35px;
     line-height: 35px;
     text-align: center;
-    border: 1px solid #111111;
+    
     border-radius: 2px;
     cursor: pointer;
     position: absolute;
-    right: 15px;
-    top: 25px;
+    right: 1px;
+    top: 10px;
   }
   .offcanvas-menu-overlay {
     position: fixed;

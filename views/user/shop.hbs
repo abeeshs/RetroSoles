@@ -101,9 +101,10 @@
                   <img class="pic-2" src="{{this.urls.[1]}}">
                 </a>
                 <ul class="product-links">
-                  <li><a href="/add-to-cart/{{this._id}}"><i class="fa fa-shopping-cart"></i></a></li>
+                  <li><a href="/add-to-cart/{{this._id}}" onclick="addToCart(event,'{{this._id}}')"><i
+                        class="fa fa-shopping-cart"></i></a></li>
                   {{#if this.wishlist}}
-                  <li><a class="bg-danger" href="/add-to-wishlist/{{this._id}}"><i class="far fa-heart"></i></a></li>
+                  <li><a class="bg-danger text-white" href="/add-to-wishlist/{{this._id}}"><i class="far fa-heart"></i></a></li>
                   {{else}}
                   <li><a class="" href="/add-to-wishlist/{{this._id}}"><i class="far fa-heart"></i></a></li>
                   {{/if}}
@@ -120,13 +121,7 @@
                   <li class="far fa-star"></li>
                 </ul>
                 <h3 class="title"><a href="/products/view-product/{{this._id}}">{{this.product}}</a></h3>
-                {{!-- {{#eq this.categoryDiscount 0}}
-                {{else}}
 
-                <div class="price">Rs.{{this.discountprice}}</div>
-                {{/eq}}
-                {{#eq this.productDiscount 0}}
-                {{/eq}} --}}
                 {{#gt this.productDiscount this.categoryDiscount}}
                 <div class="price1"> <del> Rs.{{this.originalprice}} </del> <span
                     style="color: black;">({{this.productDiscount}}% OFF)</span></div>
@@ -144,17 +139,7 @@
                 {{/eq}}
                 {{/gt}}
                 {{/gt}}
-                {{!-- {{#eq this.categoryDiscount this.productDiscount}}
-                <div class="price1"> <del> Rs.{{this.originalprice}} </del> <span
-                    style="color: black;">({{this.productDiscount}}% OFF)</span></div>
-                <div class="price">Rs.{{this.discountprice}}</div>
-                {{/eq}} --}}
-                {{!-- {{#gt this.categoryDiscount this.productDiscount}}
-                <div class="price1"> <del> Rs.{{this.originalprice}} </del> <span
-                    style="color: black;">({{this.categoryDiscount}}% OFF)</span></div>
-                {{/gt}}
 
-                <div class="price">Rs.{{this.discountprice}}</div> --}}
               </div>
             </div>
           </div>
@@ -256,44 +241,70 @@
 </div>
 
 
-{{!-- <script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js+jquery.nice-select.min.js.pagespeed.jc.ekxuW4by58.js"></script>
-<script>eval(mod_pagespeed_JZzsHwPKPa);</script>
-<script>eval(mod_pagespeed_yAX9X7dlYR);</script>
-<script
-  src="js/jquery.nicescroll.min.js+jquery.magnific-popup.min.js+jquery.countdown.min.js.pagespeed.jc.nQBr1vqAX8.js"></script>
-<script>eval(mod_pagespeed_ICtRagVbiv);</script>
-<script>eval(mod_pagespeed_0Tm96Yey2q);</script>
-<script>eval(mod_pagespeed__0kegk3Rgl);</script>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
 
-  gtag('config', 'UA-23581568-13');
-</script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194"
-  integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw=="
-  data-cf-beacon='{"rayId":"74447af8bbb16ee2","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2022.8.1","si":100}'
-  crossorigin="anonymous"></script> --}}
+{{!-- //sweet alert --}}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-
-  {{!-- //sweet alert --}}
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
+
+  function addToCart(event, id) {
+    console.log(id)
+    event.preventDefault();
+    $.ajax({
+      url: '/add-to-cart',
+      data: {
+        productId: id
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          let count=document.getElementById('cart');
+          console.log("count")
+          console.log(count)
+          const countno=count?.textContent ?? 0;
+          console.log(countno)
+          count.textContent=1+Number(countno);
+         
+          
+          // Alert the copied text
+          Toastify({
+            text: "Product added to cart",
+            duration: 3000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              // background: "linear-gradient(to right, #485563, #29323c)",
+              background: "black",
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+        } else {
+          location.href = '/login'
+
+        }
+
+      }
+    });
+  }
+
+  //add to cart
+
+
+  //sort
   function sort(number) {
 
     let url = new URL(window.location.href);
-    
+
     let params = new URLSearchParams(url.search);
-    
+
     params.set('sort', number);
     let newParams = params.toString();
-    
+
     location.href = window.location.protocol + "//" + window.location.host + '/products?' + newParams;
   }
 </script>
