@@ -123,7 +123,7 @@ router.get("/cancel-order/",userMiddleware.isLogout,userController.orderCancel)
 
 //wishlist
 router.get("/wishlist",userMiddleware.isLogout,userController.getWishlist);
-router.get("/wishlistCount",commonController.wishlistCount)
+router.get("/wishlistTotal",commonController.wishlistCount)
 
 //apply coupon
 router.post("/apply-coupon",userMiddleware.isLogout,userController.applyCoupon)

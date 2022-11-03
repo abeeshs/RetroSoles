@@ -17,22 +17,21 @@ const crypto = require("crypto");
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
+
 //________Razorpay Configure__________
 var instance = new Razorpay({
-  key_id: "rzp_test_v2m0GaedS6EV6f",
-  key_secret: "3InpvAluEcXyWP1BuKEZKwla",
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 //________Paypal cofigure________
 paypal.configure({
   mode: "sandbox", //sandbox or live
-  client_id:
-    "ATBvkeZ2tNaJ0fz_HgZPkhHhyPZTQ3577UK8-bZPVIVQegV9H4n-uF2bhdytC6UYb1WIZiupgF66miJZ",
-  client_secret:
-    "EINstz6viHv0vNtvVPdkgbYAm7jJ23YJj-g8tKTrE_LeMA2PZP67_i29YLy6dkLhbMoJg4wtUoGs_0jy",
+  client_id:process.env.PAYPAL_CLIENT_ID,
+  client_secret:process.env.PAYPAL_CLIENT_SECRET,
 });
 
-const client = require("twilio")(accountSid, authToken);
+const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 //-------Home Page Render-----------
 //method - GET
@@ -329,11 +328,13 @@ exports.getOtpLogin = async (req, res) => {
 
 exports.otpLogin = async (req, res) => {
   try {
+    console.log(req.body);
     //checking the user exist or not
     const userExist = await db
       .get()
       .collection(collection.USER_COLLECTION)
       .findOne({ mobile: req.body.mobile });
+      console.log(userExist)
     if (userExist) {
       client.verify
         .services(process.env.TWILIO_SERVICE_ID)
@@ -341,8 +342,12 @@ exports.otpLogin = async (req, res) => {
           to: `+91${req.body.mobile}`,
           channel: "sms",
         })
-        .then((data) => {});
-
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
       req.session.mobile = req.body.mobile;
       res.redirect("/otp-submit");
     } else {
@@ -722,6 +727,7 @@ exports.singleView = async (req, res) => {
     console.log(product);
 
     //to get wishlist products
+    console.log(req.session.user);
     const wishlist = await db
       .get()
       .collection(collection.WISHLIST_COLLECTION)
@@ -817,39 +823,87 @@ exports.viewCart = async (req, res) => {
 
   //------------get all cart product-------------//
 
+  // const cartItems = await db
+  //   .get()
+  //   .collection(collection.CART_COLLECTION)
+  //   .aggregate([
+  //     {
+  //       $match: { userId: ObjectId(userId) },
+  //     },
+  //     {
+  //       $unwind: "$products",
+  //     },
+  //     {
+  //       $project: {
+  //         product_Id: "$products.product_Id",
+  //         quantity: "$products.quantity",
+  //       },
+  //     },
+  //     {
+  //       $lookup: {
+  //         from: collection.PRODUCT_COLLECTION,
+  //         localField: "product_Id",
+  //         foreignField: "_id",
+  //         as: "result",
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         product_Id: 1,
+  //         quantity: 1,
+  //         result: { $arrayElemAt: ["$result", 0] },
+  //       },
+  //     },
+  //   ])
+  //   .toArray();
+  const agg = [
+    {
+      '$match': {
+        userId: ObjectId(userId)
+      }
+    }, {
+      '$unwind': {
+        'path': '$products', 
+        'preserveNullAndEmptyArrays': true
+      }
+    }, {
+      '$project': {
+        'product_Id': '$products.product_Id', 
+        'quantity': '$products.quantity'
+      }
+    }, {
+      '$lookup': {
+        'from': 'product', 
+        'localField': 'product_Id', 
+        'foreignField': '_id', 
+        'as': 'result'
+      }
+    }, {
+      '$unwind': {
+        'path': '$result', 
+        'preserveNullAndEmptyArrays': true
+      }
+    }, {
+      '$project': {
+        'product_Id': 1, 
+        'quantity': 1, 
+        'result': 1, 
+        'subtotal': {
+          '$sum': {
+            '$multiply': [
+              '$quantity', '$result.discountprice'
+            ]
+          }
+        }
+      }
+    }
+  ];
   const cartItems = await db
     .get()
     .collection(collection.CART_COLLECTION)
-    .aggregate([
-      {
-        $match: { userId: ObjectId(userId) },
-      },
-      {
-        $unwind: "$products",
-      },
-      {
-        $project: {
-          product_Id: "$products.product_Id",
-          quantity: "$products.quantity",
-        },
-      },
-      {
-        $lookup: {
-          from: collection.PRODUCT_COLLECTION,
-          localField: "product_Id",
-          foreignField: "_id",
-          as: "result",
-        },
-      },
-      {
-        $project: {
-          product_Id: 1,
-          quantity: 1,
-          result: { $arrayElemAt: ["$result", 0] },
-        },
-      },
-    ])
-    .toArray();
+    .aggregate(agg).toArray();
+    console.log("---------------");
+    console.log(cartItems);
 
   const totalAmount = total[0];
   const cartCount = await commonController.getCartCount(req.session.user);

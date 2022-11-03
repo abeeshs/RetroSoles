@@ -34,6 +34,7 @@ router.get("/products", adminMid.isLogout, productController.viewProducts);
 
 //admin add product
 router.get("/add-product",adminMid.isLogout,productController.getAddproduct);
+
 router.post(
   "/add-product",
   upload.fields([

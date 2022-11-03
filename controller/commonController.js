@@ -145,11 +145,16 @@ module.exports = {
   wishlistCount:async(req,res)=>{
     try{
       const userId=req.session.user;
-      const wishlist=await db.get().collection(collection.WISHLIST_COLLECTION).findOne({userId:ObjectId(userId)})
-      console.log(wishlist);
-      if(wishlist){
-        const count=wishlist.products.length
-        res.json({wishlist:count})
+      if(userId){
+
+        const wishlist=await db.get().collection(collection.WISHLIST_COLLECTION).findOne({userId:ObjectId(userId)})
+        console.log(wishlist);
+        if(wishlist){
+          const count=wishlist.products.length
+          res.json({wishlist:count})
+        }else{
+          res.json({status:false})
+        }
       }else{
         res.json({status:false})
       }

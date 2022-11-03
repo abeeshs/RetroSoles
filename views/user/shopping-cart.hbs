@@ -56,15 +56,15 @@
                   <div class="quantity d-flex justify-content-center">
                     
                     <div class="pro-qty-2">
-                      <button class="fa fa-angle-left dec qtybtn quantity" onclick="changeQuantity('{{this._id}}','{{this.result._id}}',-1)" ></button>
+                      <button class="fa fa-angle-left dec qtybtn quantity" onclick="changeQuantity('{{this.result.discountprice}}','{{this._id}}','{{this.result._id}}',-1)" ></button>
                       <span class="proq" id="{{this.result._id}}">  {{this.quantity}} </span>
-                      <button class="fa fa-angle-right inc qtybtn quantity" onclick="changeQuantity('{{this._id}}','{{this.result._id}}',1)"></button>
+                      <button class="fa fa-angle-right inc qtybtn quantity" onclick="changeQuantity('{{this.result.discountprice}}','{{this._id}}','{{this.result._id}}',1)"></button>
                     </div>
                     
                   </div>
                 </td>
                  
-                <td class="cart__price"></td>
+                <td id="a{{this.result._id}}"><span>Rs.</span> {{this.subtotal}}</td>
                 <input type="text" value="{{this.result._id}}" name="productId" hidden>
                   
                 <td class="cart__close"><a href="/cart/remove-item?cartId={{this._id}}&productId={{this.result._id}}"><i class="fa fa-close"></i></a></td>
@@ -75,27 +75,11 @@
           </table>
         </div>
         <div class="row">
-          {{!-- <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="continue__btn">
-              <a href="/products">Continue Shopping</a>
-            </div>
-          </div> --}}
-          {{!-- <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="continue__btn update__btn">
-              <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
-            </div>
-          </div> --}}
+       
         </div>
       </div>
       <div class="col-lg-4">
-        {{!-- <div class="cart__discount">
-          <h6>Discount codes</h6>
-          <form action="" id="coupon" method="post">
-            <input type="text" placeholder="Coupon code" name="couponcode">
-            <input type="text" name="total" hidden value="{{totalAmount.total}}">
-            <button type="submit">Apply</button>
-          </form>
-        </div> --}}
+      
         <div class="cart__total">
           <h6>Cart total</h6>
           <ul>
@@ -127,8 +111,9 @@
 <script>
   // -------changing product quantity------//
 
-  function changeQuantity(cartId,productId,count){
+  function changeQuantity(amount,cartId,productId,count){
     var quantity =parseInt(document.getElementById(productId).innerHTML)
+    price=parseInt(amount)
     count=parseInt(count)
     console.log(count)
     console.log(quantity)
@@ -149,6 +134,9 @@
           location.reload()
         }else{
           document.getElementById(productId).innerHTML=quantity+count
+       document.getElementById(`a${productId}`).textContent =`Rs. ${((quantity+count)*price).toLocaleString()}`;
+        console.log(productId)
+        console.log(document.getElementById(`a${productId}`))
            document.querySelector('.sub').innerHTML=response.totalAmount
           
           

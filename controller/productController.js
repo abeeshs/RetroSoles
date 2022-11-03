@@ -196,3 +196,6 @@ exports.deleteProduct = async (req, res) => {
     console.log(err);
   }
 };
+
+
+
