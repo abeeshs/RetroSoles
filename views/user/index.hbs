@@ -91,7 +91,7 @@
               <li><a href="/add-to-wishlist/{{this._id}}"><img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAMAAAAs2N9uAAAABGdBTUEAALGPC/xhBQAAAQtQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4co3XAAAAFh0Uk5TABB4w9ejKBWR1ciKHSvk7JN2zPhgPurgfYfd9EYJxBEDfvykDAWg8x5kF12GAdahqNC1j2Hil7fGRTgZ63Wr5grK0wgLydwcviAP0SYt3yTFzg3Z2x8GlW7p2RQAAACzSURBVBjTVc7VEoJgEAXgY/4mdmIndjd2YSC2vv+TCGPB3uzON2d2F4BKrdHq9AAxGE1mC8SyUja7w+lye7w+fyBIh4BwMBIFYvFnIpkC0pksgxydl7IoFEtSS5cNqFShKHUN9YaSmi20O0oyd9FL9OUyYIfAaMz8ZTKdzYHFcrX+CUdtpL7dfW3Csfv3RGZvE4X/5snuIIjpo5f/b90uxzw5UYL89pljL9eb8sP7Y0Q+4wviFBaGoW6hzAAAAABJRU5ErkJggg=="
                     alt="" data-pagespeed-url-hash="935450538"></a></li>
-              <li><a href="#"><i class="fa-thin fa-bag-shopping"></i> <span>Compare</span></a></li>
+              
               {{!-- <li><a href="#"><img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAMAAADjcdz2AAAABGdBTUEAALGPC/xhBQAAAORQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsLyIwAAAEt0Uk5TABB1xu7MfxY/5fiteJ/x71A79sIgEaT9TAjexweh7V7+Kw/sqMSXzpRn5pJm6Kq+kMP7IwndugORPbETjk9D8GOK4/oByPKCFU551a0uSgAAAJ5JREFUGNNdy9UWggAURNGDHSi2mJhgYWJ3i/7///gAyFrO2+y5F0DweH0+fyCInVA4EhU9sbiUsHoylc4AZHN5GaBQLJXt00pVAJRa3fltNEWg1eYXtQ1oHRe6PUDruzDQgeHIhfEEUKYzpxu6CBjzxdKGlSQArFObLYCx++yt4aAf1ZNyvhyv6s0SQbxLD+35Mn/ixLzu+JfAn8jvLyoND535naQeAAAAAElFTkSuQmCC"
                     alt="" data-pagespeed-url-hash="3756334862"
@@ -101,7 +101,7 @@
             </a>
           <div class="product__item__text mt-5">
             <h6>{{this.product}}</h6>
-            <a href="/add-to-cart/{{this._id}}" class="add-cart">+ Add To Cart</a>
+            <a href="" onclick="addToCart(event,'{{this._id}}')" class="add-cart">+ Add To Cart</a>
             <div class="rating">
               <i class="fa fa-star-o active"></i>
               <i class="fa fa-star-o"></i>
@@ -133,7 +133,7 @@
           </div>
           <div class="product__item__text mt-5">
             <h6>{{this.product}}</h6>
-            <a href="/add-to-cart/{{this._id}}" class="add-cart">+ Add To Cart</a>
+            <a href="/add-to-cart/{{this._id}}" onclick="addToCart(event,'{{this._id}}')" class="add-cart">+ Add To Cart</a>
             <div class="rating">
               <i class="fa fa-star-o"></i>
               <i class="fa fa-star-o"></i>
@@ -194,4 +194,46 @@
   </div>
 </div>
 
+<script>
+  function addToCart(event, id) {
+    console.log(id)
+    event.preventDefault();
+    $.ajax({
+      url: '/add-to-cart',
+      data: {
+        productId: id
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          let count=document.getElementById('cart');
+          console.log("count")
+          console.log(count)
+          const countno=count?.textContent ?? 0;
+          console.log(countno)
+          count.textContent=1+Number(countno);
+         
+          
+          // Alert the copied text
+          Toastify({
+            text: "Product added to cart",
+            duration: 3000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              // background: "linear-gradient(to right, #485563, #29323c)",
+              background: "black",
+            },
+            onClick: function () { } // Callback after click
+          }).showToast();
+        } else {
+          location.href = '/login'
 
+        }
+
+      }
+    });
+  }
+
+</script>

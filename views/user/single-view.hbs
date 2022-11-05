@@ -24,9 +24,9 @@
           <div class="d-flex justify-content-between align-items-center">
             <h3>{{this.product}}</h3>
              {{#if ../isWishlist}}
-            <a href="/add-to-wishlist/{{this._id}}"><i class="fa-solid fa-heart text-danger"></i></a>  
+            <a class="fs-3" href="/add-to-wishlist/{{this._id}}"><i class="fa-solid fa-heart text-danger"></i></a>  
             {{else}}
-             <a href="/add-to-wishlist/{{this._id}}"><i class="far fa-heart" ></i></a> 
+             <a class="fs-4" href="/add-to-wishlist/{{this._id}}"><i class="far fa-heart" ></i></a> 
             {{/if}}
           </div>
           <div class="mt-2 pr-3 content">
@@ -69,43 +69,4 @@
   </div>
 {{/with}}
 </div>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script>
-  function addToCart(event, id) {
-    console.log(id)
-    event.preventDefault();
-    $.ajax({
-      url: '/add-to-cart',
-      data: {
-        productId: id
-      },
-      method: 'post',
-      success: (response) => {
-        if (response.status) {
-          let count=document.getElementById('cart');
-          count.textContent=1+Number(count.textContent)
-          console.log(count)
-          
-          // Alert the copied text
-          Toastify({
-            text: "Product added to cart",
-            duration: 3000,
-            gravity: "bottom", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-              // background: "linear-gradient(to right, #485563, #29323c)",
-              background: "black",
-            },
-            onClick: function () { } // Callback after click
-          }).showToast();
-        } else {
-          location.href = '/login'
 
-        }
-
-      }
-    });
-  }
-</script>

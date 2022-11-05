@@ -43,10 +43,10 @@ router.post("/create-new-password",userController.resetPassword)
 //_______________________________PRODUCTS SECTION__________________________
 
 //view all products
-router.get("/products", userMiddleware.isLogout,userController.viewProducts);
+router.get("/products",userController.viewProducts);
 
 //product single View
-router.get("/products/view-product/:id",userMiddleware.isLogout,userController.singleView);
+router.get("/products/view-product/:id",userController.singleView);
 
 //get cart page
 router.get("/cart", userMiddleware.isLogout, userController.viewCart);

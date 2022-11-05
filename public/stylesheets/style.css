@@ -15,7 +15,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #4e82cead;
+    background-color: #c0c7d3c2;
     column-gap: 30px;
 }
 .form{
@@ -83,12 +83,12 @@ form{
 }
 .field button{
     color: #fff;
-    background-color: #0171d3;
+    background-color: #000000;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 .field button:hover{
-    background-color: #016dcb;
+    background-color: #000000;
 }
 .form-link{
     text-align: center;
@@ -101,7 +101,7 @@ form{
     color: #232836;
 }
 .form a{
-    color: #0171d3;
+    color: #000204;
     text-decoration: none;
 }
 .form-content a:hover{
@@ -131,7 +131,7 @@ form{
 }
 a.facebook{
     color: #fff;
-    background-color: #4267b2;
+    background-color: #000207;
 }
 a.facebook .facebook-icon{
     height: 28px;
