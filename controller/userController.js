@@ -609,6 +609,7 @@ exports.viewProducts = async (req, res) => {
         });
       }
     }
+    wishlist.map
 
     const product = await db
       .get()
@@ -1014,7 +1015,7 @@ exports.addToCart = async (req, res) => {
 
 exports.removeProduct = async (req, res) => {
   const { cartId, productId } = req.query;
-  console.log(cartId,productId);
+  console.log("hits here");
 
   const result = await db
     .get()

@@ -8,7 +8,7 @@ const { use } = require("./admin");
 //_________________________LOGIN SECTION________________________
 
 /* GET users listing. */
-router.get("/home",userController.viewHome)
+router.get("/",userController.viewHome)
 
 //user signup
 router.get("/signup", userController.getSignup);

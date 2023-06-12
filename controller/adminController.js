@@ -303,6 +303,7 @@ exports.editProduct = async (req, res) => {
     console.log("oldImage2");
     console.log(oldImage);
     console.log(id);
+    
     const product = {
       product: req.body.name,
       description: req.body.description,
@@ -864,6 +865,7 @@ exports.addNewOffer = async (req, res) => {
         .collection(collection.PRODUCT_COLLECTION)
         .find({ subcategory: ObjectId(id) })
         .toArray();
+        
       //calculating discount amount and updating the discount product
       const updatedProduct = await products.map(async (item) => {
         if (item.categoryDiscount > item.productDiscount) {
