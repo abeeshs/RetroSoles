@@ -6,7 +6,6 @@ exports.isLogin=(req,res,next)=>{
     }else{
         next();
     }
-
 }
 
 exports.isLogout=(req,res,next)=>{

@@ -226,7 +226,7 @@ exports.userSignup = async (req, res) => {
                 .insertOne(obj);
             }
           }
-          res.redirect("/home");
+          res.redirect("/");
         } else {
           //creating new user
           const newUser = await db
@@ -237,7 +237,7 @@ exports.userSignup = async (req, res) => {
           req.session.loggedIn = true;
           req.session.user = newUser.insertedId;
 
-          res.redirect("/home");
+          res.redirect("/");
         }
       }
     }
@@ -602,14 +602,13 @@ exports.viewProducts = async (req, res) => {
           const index = result.findIndex(
             (product) => product._id.toString() === item.product_Id.toString()
           );
-
           if (index !== -1) {
             result[index].wishlist = true;
           }
         });
       }
     }
-    wishlist.map
+    // wishlist.map
 
     const product = await db
       .get()
@@ -2272,7 +2271,6 @@ exports.getWishlist = async (req, res) => {
 
 exports.addWishlist = async (req, res) => {
   try {
-    console.log("vannutta");
     const productId = req.params.id;
 
     const userId = req.session.user;
@@ -2286,6 +2284,7 @@ exports.addWishlist = async (req, res) => {
       .get()
       .collection(collection.WISHLIST_COLLECTION)
       .findOne({ userId: ObjectId(userId) });
+      console.log({userWishlist});
 
     //____________________if user wishlist Exist__________________
 
